@@ -4,9 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Post {
 	private String pathname;
@@ -26,6 +28,10 @@ public class Post {
 		this.userId = userId;
 		this.interestLevel = interestLevel;
 		this.comments = comments;
+	}
+	
+	public int numComments() {
+		return comments.size();
 	}
 
 	public void addComment(Comment comment) {
@@ -60,8 +66,17 @@ public class Post {
 		return interestLevel;
 	}
 
-	public void calculateInterestLevel() {
-
+	public int calculateInterestLevel() {
+		// From SRS: interest level = (24 + # of comments + net vote) - age
+		return 24 + numComments() + getNetVote() - getAge();
+	}
+	
+	private int getAge() {
+		Date currentDate = Calendar.getInstance().getTime();
+		long ageInMillis = currentDate.getTime() - dateCreated.getTime();
+		int ageInHours = (int) TimeUnit.MILLISECONDS.toHours(ageInMillis);
+		
+		return ageInHours;
 	}
 
 	private String toFileNotation() {
