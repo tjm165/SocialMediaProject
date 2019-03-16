@@ -1,3 +1,4 @@
+import java.util.Date;
 
 public class Comment {
 	private Content content;
@@ -6,7 +7,7 @@ public class Comment {
 
 	public Comment(Content content, Date datecreated, String userId){
 		this.content = content;
-		this.datecreated = datecreated;
+		this.dateCreated = datecreated;
 		this.userId = userId;
 	}
 	
