@@ -52,11 +52,21 @@ public class Post {
 		
 	}
 	
-	public String toObjectNotation() {
+	public String toFileNotation() {
 		//still need to put the comments in
 		//probably need to calculate interest level first
 		
-		return (getContent().getType() + "\n" + getContent().getContent() + "\n" + getDate().toString() + "\n" + getNetVote() + "\n" + getUserId() + "\n" + getInterestLevel());
+		StringBuilder fileNotation = new StringBuilder();
+		
+		fileNotation.append(getContent().getType() + "\n" 
+				+ getContent().getContent() + "\n" 
+				+ getDateCreated().toString() + "\n" 
+				+ getNetVote() + "\n" 
+				+ getUserId() + "\n" 
+				+ getInterestLevel());
+		
+		for (Comment comment : comments) 
+			fileNotation.append("\n" + comment.toFileNotation());
 	}
 	
 	//helper method
