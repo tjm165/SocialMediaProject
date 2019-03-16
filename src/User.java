@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ public class User {
 	private String userId;
 	private Board board;
 
-	public User(String userId) {
+	public User(String userId) throws IOException {
 		this.userId = userId;
 		this.board = new Board();
 	}
@@ -52,7 +53,7 @@ public class User {
 		this.createPost("IMAGE", imgURL, anon);
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		User user = new User("rocketman57");
 		// user.createTextPost("hello world", false);
 
