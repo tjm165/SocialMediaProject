@@ -13,11 +13,11 @@ public class Content {
 		this.content = content;
 	}
 	
-	public getType(){
+	public String getType(){
 		return type;
 	}
 	
-	public getContent(){
+	public String getContent(){
 		return content;
 	}
 }
