@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
@@ -52,10 +51,8 @@ public class Post {
 		
 	}
 	
-	public String toFileNotation() {
-		//still need to put the comments in
+	public String toFileNotation(){
 		//probably need to calculate interest level first
-		
 		StringBuilder fileNotation = new StringBuilder();
 		
 		fileNotation.append(getContent().getType() + "\n" 
@@ -65,8 +62,10 @@ public class Post {
 				+ getUserId() + "\n" 
 				+ getInterestLevel());
 		
-		for (Comment comment : comments) 
+		for (Comment comment : comments) {
 			fileNotation.append("\n" + comment.toFileNotation());
+		}
+		return userId;
 	}
 	
 	//helper method
