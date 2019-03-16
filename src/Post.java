@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Post {
-	private String content;
+	private Content content;
 	private Date dateCreated;
 	private int netVote;
 	private String userId;
