@@ -1,5 +1,6 @@
 import java.util.Date;
 
+//comment2
 public class Comment {
 	private Content content;
 	private Date dateCreated;
