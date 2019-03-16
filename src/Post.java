@@ -77,8 +77,8 @@ public class Post {
 		return fileNotation.toString();
 	}
 
-	public void saveToFile(String pathname) throws FileNotFoundException {
-		PrintWriter writer = new PrintWriter(pathname);
+	public void saveToFile() throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(this.pathname);
 		writer.print(this.toFileNotation());
 		writer.close();
 	}
