@@ -1,6 +1,5 @@
 import java.util.Date;
 
-//Test
 public class Comment {
 	private Content content;
 	private Date dateCreated;
@@ -32,6 +31,7 @@ public class Comment {
 		return dateCreated;
 	}
 
+	//this is a getter method
 	public String getUserId() {
 		return userId;
 	}
