@@ -16,7 +16,47 @@ public class Post {
 	private List<Comment> comments;
 	
 	public Post(Content content, Date dateCreated, int netVote, String userId, int interestLevel, List<Comment> comments) {
+		this.content = content;
+		this.dateCreated = dateCreated;
+		this.netVote = netVote;
+		this.userId = userId;
+		this.interestLevel = interestLevel;
+		this.comments = comments;
+	}
 	
+	public Content getContent() {
+		return content;
+	}
+	
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+	
+	public void addVote(int vote) {
+		netVote += vote;
+	}
+	
+	public int getNetVote() {
+		return netVote;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	public int getInterestLevel() {
+		return interestLevel; 
+	}
+	
+	public void calculateInterestLevel() {
+		
+	}
+	
+	public String toObjectNotation() {
+		//still need to put the comments in
+		//probably need to calculate interest level first
+		
+		return (getContent().getType() + "\n" + getContent().getContent() + "\n" + getDate().toString() + "\n" + getNetVote() + "\n" + getUserId() + "\n" + getInterestLevel());
 	}
 	
 	//helper method
@@ -58,13 +98,11 @@ public class Post {
 		
 		//System.out.println(content + " " + dateCreated + " " + netVote + " " + userId + " " + interestLevel);
 		
-		
 		return parsePost(contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
 
 	public static void main(String[] args) throws IOException {
-	parsePost("C://Users//tommo//Documents//School//Software Engineering//SocialMediaApp//board_directory/Post1.post");
-
+		parsePost("C://Users//tommo//Documents//School//Software Engineering//SocialMediaApp//board_directory/Post1.post");
 	}
 
 }
