@@ -4,20 +4,19 @@ public class Content {
 	private String content;
 
 	public Content(String type, String content) {
-		if(type.equals("TEXT") || type.equals("IMAGE")){
+		if (type.equals("TEXT") || type.equals("IMAGE")) {
 			this.type = type;
-		}
-		else{
+		} else {
 			this.type = "TEXT";
 		}
 		this.content = content;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public String getContent(){
+
+	public String getContent() {
 		return content;
 	}
 }

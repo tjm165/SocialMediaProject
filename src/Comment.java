@@ -5,33 +5,34 @@ public class Comment {
 	private Date dateCreated;
 	private String userId;
 
-	public Comment(Content content, Date datecreated, String userId){
+	public Comment(Content content, Date datecreated, String userId) {
 		this.content = content;
 		this.dateCreated = datecreated;
 		this.userId = userId;
 	}
-	
+
 	public static Comment parse(String[] commentLines) {
 		Content content = new Content("TEXT", commentLines[0]);
-		Date dateCreated = new Date();//NOT DONE ************
+		Date dateCreated = new Date();// NOT DONE ************
 		String userId = commentLines[2];
-		
+
 		return new Comment(content, dateCreated, userId);
 	}
-	
-	public String toFileNotation(){
-		return ("" + content.getContent() + "\n" + dateCreated.toString() + "\n" + userId);  
+
+	public String toFileNotation() {
+		return ("" + content.getContent() + "\n" + dateCreated.toString() + "\n" + userId);
 	}
-	
-	public Content getContent(){
+
+	public Content getContent() {
 		return content;
 	}
-	
-	public Date getDateCreated(){
+
+	public Date getDateCreated() {
 		return dateCreated;
 	}
-	
-	public String get userId(){
+
+	public String getUserId() {
 		return userId;
 	}
+
 }
