@@ -27,11 +27,12 @@ public class Comment {
 		return content;
 	}
 
+	//this is a getter method
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 
-	//this is a getter method
+	//this is another getter method
 	public String getUserId() {
 		return userId;
 	}
