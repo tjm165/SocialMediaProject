@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
@@ -74,8 +75,10 @@ public class Post {
 		return fileNotation.toString();
 	}
 	
-	public void saveToFile() {
-		
+	public void saveToFile(String pathname) {
+		PrintWriter writer = new PrintWriter(pathname);
+		writer.print(this.toFileNotation());
+		writer.close();
 	}
 	
 	//helper method
