@@ -11,7 +11,7 @@ public class Comment {
 	}
 	
 	public static Comment parse(String[] commentLines) {
-		Content content = new Content("text", commentLines[0]);
+		Content content = new Content("TEXT", commentLines[0]);
 		Date dateCreated = new Date();//NOT DONE ************
 		String userId = commentLines[2];
 		
