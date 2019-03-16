@@ -22,4 +22,16 @@ public class Comment {
 	public String toFileNotation(){
 		return ("" + content.getContent() + "\n" + dateCreated.toString() + "\n" + userId);  
 	}
+	
+	public Content getContent(){
+		return content;
+	}
+	
+	public Date getDateCreated(){
+		return dateCreated;
+	}
+	
+	public String get userId(){
+		return userId;
+	}
 }
