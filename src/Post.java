@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Post {
+	private String pathname;
 	private Content content;
 	private Date dateCreated;
 	private int netVote;
@@ -14,13 +15,18 @@ public class Post {
 	private int interestLevel;
 	private List<Comment> comments;
 	
-	public Post(Content content, Date dateCreated, int netVote, String userId, int interestLevel, List<Comment> comments) {
+	public Post(String pathname, Content content, Date dateCreated, int netVote, String userId, int interestLevel, List<Comment> comments) {
+		this.pathname = pathname;
 		this.content = content;
 		this.dateCreated = dateCreated;
 		this.netVote = netVote;
 		this.userId = userId;
 		this.interestLevel = interestLevel;
 		this.comments = comments;
+	}
+	
+	public String getPathname() {
+		return pathname;
 	}
 	
 	public Content getContent() {
@@ -51,7 +57,7 @@ public class Post {
 		
 	}
 	
-	public String toFileNotation(){
+	private String toFileNotation(){
 		//probably need to calculate interest level first
 		StringBuilder fileNotation = new StringBuilder();
 		
@@ -65,18 +71,22 @@ public class Post {
 		for (Comment comment : comments) {
 			fileNotation.append("\n" + comment.toFileNotation());
 		}
-		return userId;
+		return fileNotation.toString();
+	}
+	
+	public void saveToFile() {
+		
 	}
 	
 	//helper method
-	private static Post parsePost(String contentType, String content, String dateCreated, String netVote, String userId, String interestLevel, List<Comment> commentsObj) {
+	private static Post parsePost(String pathname, String contentType, String content, String dateCreated, String netVote, String userId, String interestLevel, List<Comment> commentsObj) {
 		Content contentObj = new Content(contentType, content);
 		Date dateCreatedObj = new Date();//not done
 		int netVoteObj = Integer.parseInt(netVote);
 		String userIdObj = userId;
 		int interestLevelObj = Integer.parseInt(interestLevel);
 		
-		return new Post(contentObj, dateCreatedObj, netVoteObj, userIdObj, interestLevelObj, commentsObj);
+		return new Post(pathname, contentObj, dateCreatedObj, netVoteObj, userIdObj, interestLevelObj, commentsObj);
 	}
 	
 	//http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
@@ -107,7 +117,7 @@ public class Post {
 		
 		//System.out.println(content + " " + dateCreated + " " + netVote + " " + userId + " " + interestLevel);
 		
-		return parsePost(contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
+		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
 
 	public static void main(String[] args) throws IOException {
