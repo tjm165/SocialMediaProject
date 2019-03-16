@@ -23,7 +23,8 @@ public class User {
 	
 	private void createPost(String contentType, String content, boolean anon) throws FileNotFoundException {
 		Date dateCreated = Calendar.getInstance().getTime();
-		String pathname = User.BASE_NAME + dateCreated;
+		String pathname = User.BASE_NAME + dateCreated.getTime();
+		
 		Content contentObj = new Content(contentType, content);
 		String userId = this.userId;
 		if (anon)
@@ -45,8 +46,8 @@ public class User {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		User user = new User("rocketman57");
-		
 		user.createTextPost("hello world", false);
+		
 	}
 
 
