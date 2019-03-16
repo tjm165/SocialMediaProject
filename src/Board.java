@@ -5,6 +5,7 @@ public class Board {
 	public final static String BOARD_DIRECTORY = "board_directory/";
 	private ArrayList<Post> posts;
 
+  //https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java
 	public Board() {
 		posts = new ArrayList<Post>();
 
@@ -24,5 +25,3 @@ public class Board {
 	public Post getPost(int index) {
 		return posts.get(index);
 	}
-
-}
