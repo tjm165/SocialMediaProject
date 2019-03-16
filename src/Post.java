@@ -126,10 +126,4 @@ public class Post {
 
 		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
-
-	public static void main(String[] args) throws IOException {
-		parsePost(
-				"C://Users//tommo//Documents//School//Software Engineering//SocialMediaApp//board_directory/Post1.post");
-	}
-
 }

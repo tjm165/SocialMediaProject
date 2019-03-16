@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class User {
-	private final static String BASE_NAME = "C://Users//tommo//Documents//School//Software Engineering//SocialMediaApp//board_directory/File";
+	private final static String BASE_NAME = "board_directory/File";
 	private String userId;
 
 	public User(String userId) {
@@ -23,7 +23,7 @@ public class User {
 	
 	private void createPost(String contentType, String content, boolean anon) throws FileNotFoundException {
 		Date dateCreated = Calendar.getInstance().getTime();
-		String pathname = User.BASE_NAME + dateCreated.getTime();
+		String pathname = User.BASE_NAME + dateCreated.getTime() + ".post";
 		
 		Content contentObj = new Content(contentType, content);
 		String userId = this.userId;
@@ -47,7 +47,6 @@ public class User {
 	public static void main(String[] args) throws FileNotFoundException {
 		User user = new User("rocketman57");
 		user.createTextPost("hello world", false);
-		
 	}
 
 
