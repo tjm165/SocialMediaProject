@@ -6,7 +6,7 @@ public class User{
     this.userId = userId;
   }
   
-  public getUserId(){
+  public String getUserId(){
     return userId;
   }
   
