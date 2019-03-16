@@ -17,4 +17,8 @@ public class Comment {
 		
 		return new Comment(content, dateCreated, userId);
 	}
+	
+	public String toFileNotation(){
+		return ("" + content.getContent() + "\n" + dateCreated.toString() + "\n" + userId);  
+	}
 }
