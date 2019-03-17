@@ -23,6 +23,13 @@ public class Board {
 	public void addPost(Post post) {
 		posts.add(post);
 	}
+	
+	/*       ================Here is the delete helper method; I'm not quite sure about the filename string I frankensteined together, but it's pretty simple 
+	public void deleteFile(String fileName){
+		File file = new File(Board.BOARD_DIRECTORY + fileName);
+		file.delete();
+	}
+	*/
 
 	public Post getPost(int index) {
 		return posts.get(index);
