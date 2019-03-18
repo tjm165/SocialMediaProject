@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Board {
 	public final static String BOARD_DIRECTORY = "board_directory/";
@@ -30,6 +31,10 @@ public class Board {
 		file.delete();
 	}
 	*/
+	
+	public void sortPosts() {
+		Collections.sort(this.posts);
+	}
 
 	public Post getPost(int index) {
 		return posts.get(index);
