@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ public class User {
 	private String userId;
 	private Board board;
 
-	public User(String userId) throws IOException {
+	public User(String userId) throws IOException, ParseException {
 		this.userId = userId;
 		this.board = new Board();
 	}
@@ -62,7 +63,7 @@ public class User {
 		post.saveToFile();
 	}
 
-	public static void demo1() throws IOException {
+	public static void demo1() throws IOException, ParseException {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Sign in or create a new user (enter your username)");
 		User user = new User(scan.nextLine());
@@ -89,9 +90,9 @@ public class User {
 		scan.close();
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		User user = new User("rocketman57");
-		// user.createTextPost("hello world", false);
+		//user.createTextPost("hello world", false);
 
 		user.addComment(0, "I like that post");
 	}

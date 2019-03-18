@@ -3,14 +3,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Post implements Comparable<Post>{
+public class Post implements Comparable<Post> {
 	private String pathname;
 	private Content content;
 	private Date dateCreated;
@@ -18,6 +21,10 @@ public class Post implements Comparable<Post>{
 	private String userId;
 	private int interestLevel;
 	private List<Comment> comments;
+
+	public Post() {
+		this(null, null, null, 0, null, 0, new ArrayList<Comment>());
+	}
 
 	public Post(String pathname, Content content, Date dateCreated, int netVote, String userId, int interestLevel,
 			List<Comment> comments) {
@@ -29,7 +36,7 @@ public class Post implements Comparable<Post>{
 		this.interestLevel = interestLevel;
 		this.comments = comments;
 	}
-	
+
 	public int numComments() {
 		return comments.size();
 	}
@@ -66,26 +73,32 @@ public class Post implements Comparable<Post>{
 		return interestLevel;
 	}
 	
-	@Override
-	public int compareTo(Post post) {
-		return this.getInterestLevel() - post.getInterestLevel();
+	public void setInterestLevel(int interestLevel) {
+		this.interestLevel = interestLevel;
 	}
 
-	public int calculateInterestLevel() {
-		// From SRS: interest level = (24 + # of comments + net vote) - age
-		return 24 + numComments() + getNetVote() - getAge();
+	@Override
+	public int compareTo(Post post) {
+		int result = this.getInterestLevel() - post.getInterestLevel();
+		return result;
 	}
-	
+
+	public void calculateInterestLevel() {
+		// From SRS: interest level = (24 + # of comments + net vote) - age
+		System.out.println("calculating");
+		setInterestLevel(24 + numComments() + getNetVote() - getAge());
+	}
+
 	private int getAge() {
 		Date currentDate = Calendar.getInstance().getTime();
 		long ageInMillis = currentDate.getTime() - dateCreated.getTime();
 		int ageInHours = (int) TimeUnit.MILLISECONDS.toHours(ageInMillis);
-		
+
 		return ageInHours;
 	}
 
 	public String toFileNotation() {
-		// probably need to calculate interest level first
+		this.calculateInterestLevel();
 		StringBuilder fileNotation = new StringBuilder();
 
 		fileNotation.append(getContent().getType() + "\n" + getContent().getContent() + "\n"
@@ -105,9 +118,10 @@ public class Post implements Comparable<Post>{
 
 	// helper method
 	private static Post parsePost(String pathname, String contentType, String content, String dateCreated,
-			String netVote, String userId, String interestLevel, List<Comment> commentsObj) {
+			String netVote, String userId, String interestLevel, List<Comment> commentsObj) throws ParseException {
 		Content contentObj = new Content(contentType, content);
-		Date dateCreatedObj = new Date();// not done
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		Date dateCreatedObj = sdf.parse(dateCreated);
 		int netVoteObj = Integer.parseInt(netVote);
 		String userIdObj = userId;
 		int interestLevelObj = Integer.parseInt(interestLevel);
@@ -116,7 +130,7 @@ public class Post implements Comparable<Post>{
 	}
 
 	// http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
-	public static Post parsePost(String pathname) throws IOException {
+	public static Post parsePost(String pathname) throws IOException, ParseException {
 		File file = new File(pathname);
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);
@@ -146,6 +160,5 @@ public class Post implements Comparable<Post>{
 
 		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
-
 
 }
