@@ -90,7 +90,7 @@ public class Post implements Comparable<Post> {
 		return ageInHours;
 	}
 
-	private String toFileNotation() {
+	public String toFileNotation() {
 		// probably need to calculate interest level first
 		StringBuilder fileNotation = new StringBuilder();
 
