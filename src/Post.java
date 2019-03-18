@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Post {
+public class Post implements Comparable<Post>{
 	private String pathname;
 	private Content content;
 	private Date dateCreated;
@@ -64,6 +64,11 @@ public class Post {
 
 	public int getInterestLevel() {
 		return interestLevel;
+	}
+	
+	@Override
+	public int compareTo(Post post) {
+		return this.getInterestLevel() - post.getInterestLevel();
 	}
 
 	public int calculateInterestLevel() {
@@ -141,4 +146,6 @@ public class Post {
 
 		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
+
+
 }

@@ -18,6 +18,10 @@ public class User {
 	public String getUserId() {
 		return userId;
 	}
+	
+	public void refreshBoard() {
+		board.sortPosts();
+	}
 
 	public void addComment(int postIndex, String comment) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);
@@ -27,6 +31,14 @@ public class User {
 		Comment commentObj = new Comment(content, dateCreated, userId);
 		post.addComment(commentObj);
 		post.saveToFile();
+	}
+	
+	public void createTextPost(String text, boolean anon) throws FileNotFoundException {
+		this.createPost("TEXT", text, anon);
+	}
+
+	public void createImagePost(String imgURL, boolean anon) throws FileNotFoundException {
+		this.createPost("IMAGE", imgURL, anon);
 	}
 
 	private void createPost(String contentType, String content, boolean anon) throws FileNotFoundException {
@@ -43,14 +55,6 @@ public class User {
 		Post post = new Post(pathname, contentObj, dateCreated, 0, userId, interestLevel, comments);
 		board.addPost(post);
 		post.saveToFile();
-	}
-
-	public void createTextPost(String text, boolean anon) throws FileNotFoundException {
-		this.createPost("TEXT", text, anon);
-	}
-
-	public void createImagePost(String imgURL, boolean anon) throws FileNotFoundException {
-		this.createPost("IMAGE", imgURL, anon);
 	}
 
 	public static void main(String[] args) throws IOException {
