@@ -1,6 +1,5 @@
 import java.util.Date;
 
-//comment2
 public class Comment {
 	private Content content;
 	private Date dateCreated;
@@ -10,14 +9,6 @@ public class Comment {
 		this.content = content;
 		this.dateCreated = datecreated;
 		this.userId = userId;
-	}
-
-	public static Comment parse(String[] commentLines) {
-		Content content = new Content("TEXT", commentLines[0]);
-		Date dateCreated = new Date();// NOT DONE ************
-		String userId = commentLines[2];
-
-		return new Comment(content, dateCreated, userId);
 	}
 
 	public String toFileNotation() {
@@ -36,6 +27,14 @@ public class Comment {
 	//this is another getter method
 	public String getUserId() {
 		return userId;
+	}
+	
+	public static Comment parse(String[] commentLines) {
+		Content content = new Content("TEXT", commentLines[0]);
+		Date dateCreated = new Date();// NOT DONE ************
+		String userId = commentLines[2];
+
+		return new Comment(content, dateCreated, userId);
 	}
 
 }

@@ -4,13 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Post implements Comparable<Post>{
+public class Post implements Comparable<Post> {
 	private String pathname;
 	private Content content;
 	private Date dateCreated;
@@ -18,6 +19,10 @@ public class Post implements Comparable<Post>{
 	private String userId;
 	private int interestLevel;
 	private List<Comment> comments;
+
+	public Post() {
+		this(null, null, null, 0, null, 0, new ArrayList<Comment>());
+	}
 
 	public Post(String pathname, Content content, Date dateCreated, int netVote, String userId, int interestLevel,
 			List<Comment> comments) {
@@ -29,7 +34,7 @@ public class Post implements Comparable<Post>{
 		this.interestLevel = interestLevel;
 		this.comments = comments;
 	}
-	
+
 	public int numComments() {
 		return comments.size();
 	}
@@ -65,22 +70,23 @@ public class Post implements Comparable<Post>{
 	public int getInterestLevel() {
 		return interestLevel;
 	}
-	
+
 	@Override
 	public int compareTo(Post post) {
-		return this.getInterestLevel() - post.getInterestLevel();
+		int result = this.getInterestLevel() - post.getInterestLevel();
+		return result;
 	}
 
 	public int calculateInterestLevel() {
 		// From SRS: interest level = (24 + # of comments + net vote) - age
 		return 24 + numComments() + getNetVote() - getAge();
 	}
-	
+
 	private int getAge() {
 		Date currentDate = Calendar.getInstance().getTime();
 		long ageInMillis = currentDate.getTime() - dateCreated.getTime();
 		int ageInHours = (int) TimeUnit.MILLISECONDS.toHours(ageInMillis);
-		
+
 		return ageInHours;
 	}
 
@@ -146,6 +152,5 @@ public class Post implements Comparable<Post>{
 
 		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
-
 
 }
