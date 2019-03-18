@@ -73,7 +73,7 @@ public class Post implements Comparable<Post> {
 		return interestLevel;
 	}
 	
-	public void setInterestLevel(int interestLevel) {
+	private void setInterestLevel(int interestLevel) {
 		this.interestLevel = interestLevel;
 	}
 

@@ -73,9 +73,11 @@ public class User {
 		int contentTypeInt = scan.nextInt();
 		if (contentTypeInt == 1) {
 			contentType = "IMAGE";
+			scan.nextLine();
 			System.out.println("What is the link to your image?");
 		} else {
 			contentType = "TEXT";
+			scan.nextLine();
 			System.out.println("What do you want the post to say?");
 		}
 		String content = scan.nextLine();
@@ -85,16 +87,22 @@ public class User {
 		} else {
 			user.createPost(contentType, content, false);
 		}
-		System.out.println(
-				"You've made your first post! Here is how it is stored:" + user.getBoard().getPost(0).toFileNotation());
+		System.out.println("You've made your first post! Here is how it is stored:"
+				+ user.getBoard().getPost(0).toFileNotation() + "\n\nHere is the board with some more posts added:");
+
+		user.createTextPost("This is a computer created post", true);
+		user.createTextPost("This is a computer created post", true);
+		System.out.println(user.getBoard().toString());
+		
 		scan.close();
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		User user = new User("rocketman57");
-		//user.createTextPost("hello world", false);
+		demo1();
+		// User user = new User("rocketman57");
+		// user.createTextPost("hello world", false);
 
-		user.addComment(0, "I like that post");
+		// user.addComment(0, "I like that post");
 	}
 
 }
