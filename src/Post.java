@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +72,10 @@ public class Post implements Comparable<Post> {
 	public int getInterestLevel() {
 		return interestLevel;
 	}
+	
+	public void setInterestLevel(int interestLevel) {
+		this.interestLevel = interestLevel;
+	}
 
 	@Override
 	public int compareTo(Post post) {
@@ -77,9 +83,10 @@ public class Post implements Comparable<Post> {
 		return result;
 	}
 
-	public int calculateInterestLevel() {
+	public void calculateInterestLevel() {
 		// From SRS: interest level = (24 + # of comments + net vote) - age
-		return 24 + numComments() + getNetVote() - getAge();
+		System.out.println("calculating");
+		setInterestLevel(24 + numComments() + getNetVote() - getAge());
 	}
 
 	private int getAge() {
@@ -91,7 +98,7 @@ public class Post implements Comparable<Post> {
 	}
 
 	public String toFileNotation() {
-		// probably need to calculate interest level first
+		this.calculateInterestLevel();
 		StringBuilder fileNotation = new StringBuilder();
 
 		fileNotation.append(getContent().getType() + "\n" + getContent().getContent() + "\n"
@@ -111,9 +118,10 @@ public class Post implements Comparable<Post> {
 
 	// helper method
 	private static Post parsePost(String pathname, String contentType, String content, String dateCreated,
-			String netVote, String userId, String interestLevel, List<Comment> commentsObj) {
+			String netVote, String userId, String interestLevel, List<Comment> commentsObj) throws ParseException {
 		Content contentObj = new Content(contentType, content);
-		Date dateCreatedObj = new Date();// not done
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		Date dateCreatedObj = sdf.parse(dateCreated);
 		int netVoteObj = Integer.parseInt(netVote);
 		String userIdObj = userId;
 		int interestLevelObj = Integer.parseInt(interestLevel);
@@ -122,7 +130,7 @@ public class Post implements Comparable<Post> {
 	}
 
 	// http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
-	public static Post parsePost(String pathname) throws IOException {
+	public static Post parsePost(String pathname) throws IOException, ParseException {
 		File file = new File(pathname);
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);

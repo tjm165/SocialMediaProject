@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,7 +9,7 @@ public class Board {
 	private ArrayList<Post> posts;
 
 	// https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java
-	public Board() throws IOException {
+	public Board() throws IOException, ParseException {
 		posts = new ArrayList<Post>();
 
 		File folder = new File(Board.BOARD_DIRECTORY);

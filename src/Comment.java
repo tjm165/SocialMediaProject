@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
@@ -29,12 +31,13 @@ public class Comment {
 		return userId;
 	}
 	
-	public static Comment parse(String[] commentLines) {
+	public static Comment parse(String[] commentLines) throws ParseException {
 		Content content = new Content("TEXT", commentLines[0]);
-		Date dateCreated = new Date();// NOT DONE ************
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		Date dateCreatedObj = sdf.parse(commentLines[1]);
 		String userId = commentLines[2];
 
-		return new Comment(content, dateCreated, userId);
+		return new Comment(content, dateCreatedObj, userId);
 	}
 
 }
