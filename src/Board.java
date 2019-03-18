@@ -19,9 +19,16 @@ public class Board {
 			if (file.isFile())
 				posts.add(Post.parsePost(file.getPath()));
 		
-		
 	}
 
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		for(int i = 0;i < posts.size();i++) {
+			string.append(posts.get(i).toFileNotation() + "\n\n\n");
+		}
+		return string.toString();
+	}
+	
 	public void addPost(Post post) {
 		posts.add(post);
 	}
