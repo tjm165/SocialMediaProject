@@ -21,7 +21,6 @@ public class Comment {
 		return content;
 	}
 
-	//this is a getter method
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -29,6 +28,21 @@ public class Comment {
 	//this is another getter method
 	public String getUserId() {
 		return userId;
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof Comment)) 
+			return false;
+		
+		Comment comment = (Comment) o;
+		if (!this.getContent().equals(comment.getContent()))
+			return false;
+		if (!this.getDateCreated().equals(comment.getDateCreated()))
+			return false;
+		if (!this.getUserId().equals(comment.getUserId()))
+			return false;
+		
+		return true;
 	}
 	
 	public static Comment parse(String[] commentLines) throws ParseException {
