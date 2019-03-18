@@ -56,6 +56,33 @@ public class User {
 		board.addPost(post);
 		post.saveToFile();
 	}
+	
+	public static void demo1(){
+      		Scanner scan = new Scanner(System.in);
+		System.out.println("Sign in or create a new user (enter your username)");
+		User user = new User(scan.nextLine());
+		String contentType = "";
+		System.out.println("Now create your first post! do you want it to be text or an image?\n0 for text; 1 for an image");
+		int contentTypeInt = scan.nextInt();
+		if(contentTypeInt == 1){
+			contentType = "IMAGE";
+			System.out.println("What is the link to your image?");
+		}
+		else{
+			contentType = "TEXT";
+			System.out.println("What do you want the post to say?");
+		}
+		String content = scan.nextLine();
+		System.out.println("Do you want to post anonymously? type 1 if so, 0 if not");
+		if(contentTypeInt == 1){
+			user.createPost(contentType, content, true);
+		}
+		else{
+			user.createPost(contentType, content, false);
+		}
+		System.out.println("You've made your first post! Here is how it is stored:" + board.getPost(0).toFileNotation());
+		
+	}
 
 	public static void main(String[] args) throws IOException {
 		User user = new User("rocketman57");
