@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -9,12 +10,13 @@ import java.util.Scanner;
 
 public class User {
 	private final static String BASE_NAME = "board_directory/File";
+	public final static String BOARD_DIRECTORY = "board_directory/";
 	private String userId;
 	private Board board;
 
 	public User(String userId) throws IOException, ParseException {
-		this.userId = userId;
-		this.board = new Board();
+		this.userId = userId;		
+		this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
 	}
 
 	public Board getBoard() {
