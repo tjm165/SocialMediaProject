@@ -22,10 +22,6 @@ public class Post implements Comparable<Post> {
 	private int interestLevel;
 	private List<Comment> comments;
 
-	public Post() {
-		this(null, null, null, 0, null, 0, new ArrayList<Comment>());
-	}
-
 	public Post(String pathname, Content content, Date dateCreated, int netVote, String userId, int interestLevel,
 			List<Comment> comments) {
 		this.pathname = pathname;
@@ -116,8 +112,8 @@ public class Post implements Comparable<Post> {
 		writer.close();
 	}
 
-	// helper method
-	private static Post parsePost(String pathname, String contentType, String content, String dateCreated,
+	// helper method. Protected so it can be tested
+	protected static Post parsePost(String pathname, String contentType, String content, String dateCreated,
 			String netVote, String userId, String interestLevel, List<Comment> commentsObj) throws ParseException {
 		Content contentObj = new Content(contentType, content);
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
@@ -127,6 +123,10 @@ public class Post implements Comparable<Post> {
 		int interestLevelObj = Integer.parseInt(interestLevel);
 
 		return new Post(pathname, contentObj, dateCreatedObj, netVoteObj, userIdObj, interestLevelObj, commentsObj);
+	}
+	
+	public boolean equals(Object o) {
+		return false;
 	}
 
 	// http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
@@ -154,9 +154,6 @@ public class Post implements Comparable<Post> {
 			commentsObj.add(commentObj);
 		}
 		fr.close();
-
-		// System.out.println(content + " " + dateCreated + " " + netVote + " " + userId
-		// + " " + interestLevel);
 
 		return parsePost(pathname, contentType, content, dateCreated, netVote, userId, interestLevel, commentsObj);
 	}
