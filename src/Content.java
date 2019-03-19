@@ -7,7 +7,7 @@ public class Content {
 		if (type.equals("TEXT") || type.equals("IMAGE")) {
 			this.type = type;
 		} else {
-			this.type = "TEXT";
+			this.type = "TEXT"; //maybe we should throw an error instead?
 		}
 		this.content = content;
 	}
@@ -18,6 +18,20 @@ public class Content {
 
 	public String getContent() {
 		return content;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Content))
+			return false;
+		Content content = (Content) o;
+		
+		if (!this.getType().equals(content.getType()))
+			return false;
+		if (!this.getContent().equals(content.getContent()))
+			return false;
+		return true;
+		
 	}
 	
 }
