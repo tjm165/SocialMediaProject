@@ -51,11 +51,13 @@ public class Board {
 
 	//Sorts from highest to lowest interest level
 	public void sortPosts() {
-		for(int i = 0; i <= posts.size(); i++) {
+		for(int i = 0; i < posts.size(); i++) {
 			posts.get(i).calculateInterestLevel();
 			if (posts.get(i).getInterestLevel() <= 0) {
 				File file = new File(posts.get(i).getPathname());
+				//System.out.println(posts.get(i).getInterestLevel());   //For testing
 				file.delete();
+				removePost(i);
 			}
 		}
 		Collections.sort(this.posts);
