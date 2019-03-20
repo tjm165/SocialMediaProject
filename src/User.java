@@ -33,6 +33,16 @@ public class User {
 		board.sortPosts();
 	}
 
+	public void upVote(int postIndex) {
+		Post post = board.getPost(postIndex);
+		post.addVote(1);
+	}
+
+	public void downVote(int postIndex) {
+		Post post = board.getPost(postIndex);
+		post.addVote(-1);
+	}
+
 	public void addComment(int postIndex, String comment) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);
 		Content content = new Content("TEXT", comment);
@@ -71,6 +81,7 @@ public class User {
 
 		Post post = new Post(pathname, contentObj, dateCreated, 0, userId, interestLevel, comments);
 		board.addPost(post);
+		savePostToFile(post);
 	}
 
 	private void savePostToFile(Post post) throws FileNotFoundException {
@@ -98,17 +109,51 @@ public class User {
 		}
 		String content = scan.nextLine();
 		System.out.println("Do you want to post anonymously? type 1 if so, 0 if not");
-		if (contentTypeInt == 1) {
+		int anon = scan.nextInt();
+		if (anon == 1) {
 			user.createPost(contentType, content, true);
 		} else {
 			user.createPost(contentType, content, false);
 		}
-		System.out.println("You've made your first post! Here is how it is stored:"
-				+ user.getBoard().getPost(0).toFileNotation() + "\n\nHere is the board with some more posts added:");
+		System.out.println("You've made your first post! Here is how it is stored:\n"
+				+ user.getBoard().getPost(0).toFileNotation() + "\n\nHit enter for more posts to be added =>");
 
+		scan.nextLine();
 		user.createTextPost("This is a computer created post", true);
-		user.createTextPost("This is a computer created post", true);
+		user.createTextPost("This is a second computer created post", true);
 		System.out.println(user.getBoard().toString());
+
+		// Tests Up votes, down votes, deleting a post
+		System.out.println("Now hit enter to upvote your post =>");
+		scan.nextLine();
+		user.upVote(0);
+		System.out.println("Now your post has a higher interest level!\n" + user.getBoard().getPost(0).toFileNotation()
+				+ "\n\nNow hit enter to downvote a computer generated post =>");
+
+		scan.nextLine();
+		user.downVote(1);
+		System.out.println("Now the first computer post has a lower interest level!\n"
+				+ user.getBoard().getPost(1).toFileNotation());
+		System.out.println("\n\nNow if the post drops to an interest level of 0 or below,\nit will be deleted. Hit enter to see =>");
+
+		scan.nextLine();
+		user.getBoard().getPost(1).addVote(-30);
+		user.getBoard().sortPosts();
+		System.out.println(
+				"Here is the board with the changed interest levels and deletion:\n" + user.getBoard().toString());
+
+		System.out.println("Hit enter so see what happens if your post gets 5 downvotes =>");
+		user.getBoard().getPost(0).addVote(-5);
+		user.getBoard().sortPosts();
+
+		System.out.println(
+				"You will see the board has been resorted in order of interest:\n" + user.getBoard().toString());
+
+		System.out.println("\n\nHow about you add a comment to the top post? What should it say?");
+		user.addComment(0, scan.nextLine());
+
+		System.out.println("\nNow the post has a higher interest level, and the comment is stored in the post.\n\n"
+				+ user.getBoard().getPost(0).toFileNotation() + "\n\nYour Demo Is Complete!!! \nHave a GREAT Day!");
 
 		scan.close();
 	}

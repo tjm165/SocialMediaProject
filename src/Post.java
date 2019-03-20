@@ -81,7 +81,7 @@ public class Post implements Comparable<Post> {
 
 	public void calculateInterestLevel() {
 		// From SRS: interest level = (24 + # of comments + net vote) - age
-		System.out.println("calculating");
+		//System.out.println("calculating"); //For testing
 		setInterestLevel(24 + numComments() + getNetVote() - getAge());
 	}
 
