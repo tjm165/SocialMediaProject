@@ -1,5 +1,7 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,7 +17,7 @@ public class User {
 	private Board board;
 
 	public User(String userId) throws IOException, ParseException {
-		this.userId = userId;		
+		this.userId = userId;
 		this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
 	}
 
@@ -38,7 +40,7 @@ public class User {
 
 		Comment commentObj = new Comment(content, dateCreated, userId);
 		post.addComment(commentObj);
-		post.saveToFile();
+		savePostToFile(post);
 	}
 
 	public void createTextPost(String text, boolean anon) throws FileNotFoundException {
@@ -47,6 +49,13 @@ public class User {
 
 	public void createImagePost(String imgURL, boolean anon) throws FileNotFoundException {
 		this.createPost("IMAGE", imgURL, anon);
+	}
+
+	// Jared can you see if this works when you do the demo
+	public void deletePost(int i) {
+		Post toDelete = board.removePost(i);
+		File file = new File(toDelete.getPathname());
+		file.delete();
 	}
 
 	private void createPost(String contentType, String content, boolean anon) throws FileNotFoundException {
@@ -62,7 +71,12 @@ public class User {
 
 		Post post = new Post(pathname, contentObj, dateCreated, 0, userId, interestLevel, comments);
 		board.addPost(post);
-		post.saveToFile();
+	}
+
+	private void savePostToFile(Post post) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(post.getPathname());
+		writer.print(post.toFileNotation());
+		writer.close();
 	}
 
 	public static void demo1() throws IOException, ParseException {
@@ -95,7 +109,7 @@ public class User {
 		user.createTextPost("This is a computer created post", true);
 		user.createTextPost("This is a computer created post", true);
 		System.out.println(user.getBoard().toString());
-		
+
 		scan.close();
 	}
 
