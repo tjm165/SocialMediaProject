@@ -42,8 +42,9 @@ public class Board {
 		posts.add(post);
 	}
 
-	//keep in mind that it's the user's responsibility to delete the actual file
-	//just like its the user's responsibility to create and save the actual file
+	//keep in mind that it's the user's responsibility to delete the actual file - T
+	//just like its the user's responsibility to create and save the actual file - T
+	//though in this case, the user will choose to refresh the board. that will include deletion - J
 	public Post removePost(int i) {
 		return posts.remove(i);
 	}
