@@ -41,6 +41,13 @@ public class Board {
 	*/
 	
 	public void sortPosts() {
+		for(int i = 0; i <= posts.size(); i++) {
+			posts.get(i).calculateInterestLevel();
+			if (posts.get(i).getInterestLevel() <= 0) {
+				File file = new File(posts.get(i).getPathname());
+				file.delete();
+			}
+		}
 		Collections.sort(this.posts);
 	}
 
