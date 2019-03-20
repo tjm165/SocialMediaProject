@@ -68,7 +68,7 @@ public class Post implements Comparable<Post> {
 	public int getInterestLevel() {
 		return interestLevel;
 	}
-	
+
 	private void setInterestLevel(int interestLevel) {
 		this.interestLevel = interestLevel;
 	}
@@ -106,11 +106,11 @@ public class Post implements Comparable<Post> {
 		return fileNotation.toString();
 	}
 
-	public void saveToFile() throws FileNotFoundException {
-		PrintWriter writer = new PrintWriter(this.pathname);
-		writer.print(this.toFileNotation());
-		writer.close();
-	}
+	/*
+	 * public void saveToFile() throws FileNotFoundException { PrintWriter writer =
+	 * new PrintWriter(this.pathname); writer.print(this.toFileNotation());
+	 * writer.close(); }
+	 */
 
 	// helper method. Protected so it can be tested
 	protected static Post parsePost(String pathname, String contentType, String content, String dateCreated,
@@ -124,9 +124,13 @@ public class Post implements Comparable<Post> {
 
 		return new Post(pathname, contentObj, dateCreatedObj, netVoteObj, userIdObj, interestLevelObj, commentsObj);
 	}
-	
+
 	public boolean equals(Object o) {
-		return false;
+		if (!(o instanceof Post))
+			return false;
+
+		Post post = (Post) o;
+		return this.toFileNotation().equals(post.toFileNotation());
 	}
 
 	// http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html

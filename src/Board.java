@@ -9,18 +9,22 @@ public class Board {
 	private List<Post> posts;
 
 	// https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java
-	/*public Board() throws IOException, ParseException {
-		posts = new ArrayList<Post>();
+	/*
+	 * public Board() throws IOException, ParseException { posts = new
+	 * ArrayList<Post>();
+	 * 
+	 * File folder = new File(Board.BOARD_DIRECTORY); File[] listOfFiles =
+	 * folder.listFiles();
+	 * 
+	 * for (File file : listOfFiles) if (file.isFile())
+	 * posts.add(Post.parsePost(file.getPath()));
+	 * 
+	 * }
+	 */
 
-		File folder = new File(Board.BOARD_DIRECTORY);
-		File[] listOfFiles = folder.listFiles();
-
-		for (File file : listOfFiles)
-			if (file.isFile())
-				posts.add(Post.parsePost(file.getPath()));
-
+	public Board() {
+		this(new ArrayList<Post>());
 	}
-	*/
 
 	public Board(List<Post> posts) {
 		this.posts = posts;
@@ -38,22 +42,27 @@ public class Board {
 		posts.add(post);
 	}
 
-	/*
-	 * ================Here is the delete helper method; I'm not quite sure about
-	 * the filename string I frankensteined together, but it's pretty simple public
-	 * void deleteFile(String fileName){ File file = new File(Board.BOARD_DIRECTORY
-	 * + fileName); file.delete(); }
-	 */
+	//keep in mind that it's the user's responsibility to delete the actual file
+	//just like its the user's responsibility to create and save the actual file
+	public Post removePost(int i) {
+		return posts.remove(i);
+	}
 
+	//Sorts from highest to lowest interest level
 	public void sortPosts() {
 		Collections.sort(this.posts);
+		Collections.reverse(this.posts);
 	}
 
 	public Post getPost(int index) {
 		return posts.get(index);
 	}
-	
-	public static Board getBoardFromFile(String boardDirectory) throws IOException, ParseException{
+
+	public int numPosts() {
+		return posts.size();
+	}
+
+	public static Board getBoardFromFile(String boardDirectory) throws IOException, ParseException {
 		List<Post> posts = new ArrayList<Post>();
 
 		File folder = new File(boardDirectory);
@@ -62,7 +71,7 @@ public class Board {
 		for (File file : listOfFiles)
 			if (file.isFile())
 				posts.add(Post.parsePost(file.getPath()));
-		
+
 		return new Board(posts);
 	}
 }

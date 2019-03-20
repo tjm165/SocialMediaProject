@@ -251,6 +251,21 @@ class PostTest {
 	
 	@Test
 	void equalsTest() {
-		//NOTE: need to test
+		Post post1A = newPost1();
+		Post post1B = newPost1();
+		Post post2 = newPost2();
+		Object obj = "hello";
+		
+		//Two equal posts
+		assertTrue(post1A.equals(post1B));
+		assertTrue(post1B.equals(post1A));
+		
+		//Two unequal posts
+		assertFalse(post1A.equals(post2));
+		assertFalse(post2.equals(post1A));
+		
+		//An object other than a post
+		assertFalse(post1A.equals(obj));
+		assertFalse(obj.equals(post1A));
 	}
 }
