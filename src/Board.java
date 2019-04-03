@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JPanel;
+import theme.Panel;
 
 public class Board implements Panelable{
 	private List<Post> posts;
@@ -32,13 +32,16 @@ public class Board implements Panelable{
 		this.posts = posts;
 	}
 	
-	public JPanel toPanel() {
-		JPanel panel = new JPanel();
-		JPanel createPost = new JPanel(); //still need to make
+	public Panel toPanel() {
+		Panel panel = new Panel(2, 1);
+		
+		Panel createPost = new Panel(1, 1); //still need to make
+		Panel posts = new Panel(this.numPosts(), 1);
 		
 		panel.add(createPost);
-		for (Post post : posts)
-			panel.add(post.toPanel());
+		panel.add(posts);
+		for (Post post : this.posts)
+			posts.add(post.toPanel());
 		
 		return panel;
 	}

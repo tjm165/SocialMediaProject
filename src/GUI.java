@@ -3,6 +3,9 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.*;
 
+import theme.Button;
+import theme.Panel;
+
 public class GUI extends JFrame {
 
 	User user;
@@ -15,7 +18,6 @@ public class GUI extends JFrame {
 		this.setSize(300, 300);
 		this.hotPanel = null;
 		this.user = null;
-		this.setVisible(true);
 		this.signedIn = new CountDownLatch(1);
 	}
 
@@ -26,6 +28,8 @@ public class GUI extends JFrame {
 		
 		this.hotPanel = panel;
 		this.add(hotPanel);
+		
+		this.setVisible(true);//need to call this everytime to update the jframe
 	}
 
 	/* perhaps this method could be in user.toPanel()
@@ -33,9 +37,9 @@ public class GUI extends JFrame {
 	 */
 	public JPanel signIn() {
 		// Initialize what we need
-		JPanel signIn = new JPanel();
+		Panel signIn = new Panel(1, 2);
 		JTextArea textbox = new JTextArea(1, 20);
-		JButton submit = new JButton("submit");
+		Button submit = new Button("submit");
 
 		// Set any properties
 

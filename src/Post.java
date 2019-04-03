@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import theme.Panel;
+
 public class Post implements Comparable<Post>, Panelable {
 	private String pathname;
 	private Content content;
@@ -99,7 +101,7 @@ public class Post implements Comparable<Post>, Panelable {
 
 	@Override
 	public JPanel toPanel() {
-		JPanel panel = new JPanel();
+		Panel panel = new Panel(1, 1);
 		JLabel content = new JLabel(getContent().getContent());
 
 		panel.add(content);
