@@ -10,15 +10,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
 public class User {
 	private final static String BASE_NAME = "board_directory/File";
 	public final static String BOARD_DIRECTORY = "board_directory/";
 	private String userId;
 	private Board board;
 
-	public User(String userId) throws IOException, ParseException {
+	public User(String userId) {
 		this.userId = userId;
-		this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
+		try {
+			this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Board getBoard() {
@@ -159,7 +170,8 @@ public class User {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		demo1();
+		
+		//demo1();
 		// User user = new User("rocketman57");
 		// user.createTextPost("hello world", false);
 
