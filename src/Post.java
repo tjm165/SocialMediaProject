@@ -13,7 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Post implements Comparable<Post> {
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Post implements Comparable<Post>, Panelable {
 	private String pathname;
 	private Content content;
 	private Date dateCreated;
@@ -81,7 +85,7 @@ public class Post implements Comparable<Post> {
 
 	public void calculateInterestLevel() {
 		// From SRS: interest level = (24 + # of comments + net vote) - age
-		//System.out.println("calculating"); //For testing
+		// System.out.println("calculating"); //For testing
 		setInterestLevel(24 + numComments() + getNetVote() - getAge());
 	}
 
@@ -91,6 +95,16 @@ public class Post implements Comparable<Post> {
 		int ageInHours = (int) TimeUnit.MILLISECONDS.toHours(ageInMillis);
 
 		return ageInHours;
+	}
+
+	@Override
+	public JPanel toPanel() {
+		JPanel panel = new JPanel();
+		JLabel content = new JLabel(getContent().getContent());
+
+		panel.add(content);
+
+		return panel;
 	}
 
 	public String toFileNotation() {

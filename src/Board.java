@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Board {
+import javax.swing.JPanel;
+
+public class Board implements Panelable{
 	private List<Post> posts;
 
 	// https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java
@@ -28,6 +30,17 @@ public class Board {
 
 	public Board(List<Post> posts) {
 		this.posts = posts;
+	}
+	
+	public JPanel toPanel() {
+		JPanel panel = new JPanel();
+		JPanel createPost = new JPanel(); //still need to make
+		
+		panel.add(createPost);
+		for (Post post : posts)
+			panel.add(post.toPanel());
+		
+		return panel;
 	}
 
 	public String toString() {

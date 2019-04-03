@@ -19,6 +19,7 @@ public class GUI extends JFrame {
 		this.signedIn = new CountDownLatch(1);
 	}
 
+	//I think this will be a very important method
 	public void display(JPanel panel) {
 		if (hotPanel != null)
 			this.remove(hotPanel);
@@ -27,13 +28,9 @@ public class GUI extends JFrame {
 		this.add(hotPanel);
 	}
 
-	public JPanel board() {
-		JPanel board = new JPanel();
-		//user.getBoard().toJPanel();
-
-		return board;
-	}
-
+	/* perhaps this method could be in user.toPanel()
+	 * The only thing is we would need to work with that latch..
+	 */
 	public JPanel signIn() {
 		// Initialize what we need
 		JPanel signIn = new JPanel();
@@ -61,7 +58,7 @@ public class GUI extends JFrame {
 
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
-		gui.display(gui.board()); // now that we have a user we can show te board
+		gui.display(gui.user.getBoard().toPanel()); // now that we have a user we can show te board
 
 		System.out.println("hey");
 
