@@ -100,11 +100,13 @@ public class Post implements Comparable<Post>, Panelable {
 	}
 
 	@Override
-	public JPanel toPanel() {
+	public Panel toPanel() {
 		Panel panel = new Panel(1, 1);
-		JLabel content = new JLabel(getContent().getContent());
+		Panel content = getContent().toPanel(); //you might think it could be a Label, but an image is not a Label
 
 		panel.add(content);
+		//panel.add(upvote);
+		//panel.add(addComment);
 
 		return panel;
 	}

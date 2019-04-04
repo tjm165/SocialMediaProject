@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import theme.Button;
 import theme.Panel;
+import theme.TextArea;
 
 public class GUI extends JFrame {
 
@@ -32,13 +33,15 @@ public class GUI extends JFrame {
 		this.setVisible(true);//need to call this everytime to update the jframe
 	}
 
-	/* perhaps this method could be in user.toPanel()
+	/* You might think that this method could be in user.toPanel()
+	 * However, this method calls new User("username"). so maybe it can be in the User class
+	 * But it would have to be static
 	 * The only thing is we would need to work with that latch..
 	 */
 	public JPanel signIn() {
 		// Initialize what we need
 		Panel signIn = new Panel(1, 2);
-		JTextArea textbox = new JTextArea(1, 20);
+		TextArea textbox = new TextArea();
 		Button submit = new Button("submit");
 
 		// Set any properties

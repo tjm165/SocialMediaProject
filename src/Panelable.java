@@ -1,5 +1,7 @@
 import javax.swing.JPanel;
 
+import theme.Panel;
+
 public interface Panelable {
-	public JPanel toPanel();
+	public Panel toPanel();
 }

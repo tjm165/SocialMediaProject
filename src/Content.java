@@ -1,5 +1,7 @@
+import theme.Label;
+import theme.Panel;
 
-public class Content {
+public class Content implements Panelable {
 	private String type;
 	private String content;
 
@@ -20,6 +22,8 @@ public class Content {
 		return content;
 	}
 	
+	
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Content))
@@ -32,6 +36,17 @@ public class Content {
 			return false;
 		return true;
 		
+	}
+
+	@Override
+	public Panel toPanel() {
+		Panel content = new Panel(1, 1);
+		if (getType().equals("TEXT")) {
+			Label text = new Label(getContent());
+			content.add(text);
+		}
+		
+		return content;
 	}
 	
 }

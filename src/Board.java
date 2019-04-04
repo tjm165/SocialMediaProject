@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import theme.Panel;
+import theme.TextArea;
 
 public class Board implements Panelable{
 	private List<Post> posts;
@@ -37,6 +38,9 @@ public class Board implements Panelable{
 		
 		Panel createPost = new Panel(1, 1); //still need to make
 		Panel posts = new Panel(this.numPosts(), 1);
+		
+		TextArea createPostContent = new TextArea();
+		createPost.add(createPostContent);
 		
 		panel.add(createPost);
 		panel.add(posts);
