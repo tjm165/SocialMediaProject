@@ -8,7 +8,7 @@ public class Panel extends JPanel{
 
 	public Panel(int rows, int cols) {
 		super(new GridLayout(rows, cols));
-		this.setBackground(Theme.ACCENT_COLOR);
+		this.setBackground(Theme.COLOR_ACCENT);
 		this.setBorder(Theme.BORDER);
 	}
 }

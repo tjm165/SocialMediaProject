@@ -1,23 +1,16 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import theme.Panel;
+import theme.*;
 
 public class Post implements Comparable<Post>, Panelable {
 	private String pathname;
@@ -105,9 +98,35 @@ public class Post implements Comparable<Post>, Panelable {
 		Panel content = getContent().toPanel(); //you might think it could be a Label, but an image is not a Label
 
 		panel.add(content);
-		//panel.add(upvote);
-		//panel.add(addComment);
+		panel.add(makeInfoPanel());
+		panel.add(makeInteractionPanel());
 
+
+		return panel;
+	}
+	
+	private Panel makeInfoPanel() {
+		Panel panel = new Panel(1, 1);
+		Label netvote = new Label("Net Vote: " + getNetVote());
+		panel.add(netvote);
+		
+		return panel;
+	}
+	
+	private Panel makeInteractionPanel() {
+		Panel panel = new Panel(2, 2);
+		Button upvote = new Button("Upvote");
+		Button downvote = new Button("Downvote");
+		TextArea commentText = new TextArea();
+		Button submitComment = new Button("Comment");
+		
+		panel.add(upvote, 1, 0);
+		panel.add(downvote, 0, 0);
+		panel.add(submitComment, 0, 1);
+		panel.add(commentText, 1, 1);
+
+		
+		
 		return panel;
 	}
 
