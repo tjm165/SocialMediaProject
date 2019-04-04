@@ -44,14 +44,16 @@ public class User {
 		board.sortPosts();
 	}
 
-	public void upVote(int postIndex) {
+	public void upVote(int postIndex) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);
 		post.addVote(1);
+		savePostToFile(post);
 	}
 
-	public void downVote(int postIndex) {
+	public void downVote(int postIndex) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);
 		post.addVote(-1);
+		savePostToFile(post);
 	}
 
 	public void addComment(int postIndex, String comment) throws FileNotFoundException {
@@ -170,9 +172,9 @@ public class User {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		
 		//demo1();
-		// User user = new User("rocketman57");
+		 User user = new User("rocketman57");
+		 user.downVote(0);
 		// user.createTextPost("hello world", false);
 
 		// user.addComment(0, "I like that post");
