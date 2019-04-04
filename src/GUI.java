@@ -23,7 +23,7 @@ public class GUI extends JFrame {
 	}
 
 	//I think this will be a very important method
-	public void display(JPanel panel) {
+	private void display(JPanel panel) {
 		if (hotPanel != null)
 			this.remove(hotPanel);
 		
@@ -38,7 +38,7 @@ public class GUI extends JFrame {
 	 * But it would have to be static
 	 * The only thing is we would need to work with that latch..
 	 */
-	public JPanel signIn() {
+	private JPanel signIn() {
 		// Initialize what we need
 		Panel signIn = new Panel(1, 2);
 		TextArea textbox = new TextArea();
@@ -59,16 +59,17 @@ public class GUI extends JFrame {
 		
 		return signIn;
 	}
-
-	public static void main(String[] main) throws InterruptedException {
-		GUI gui = new GUI("Demo Social Media App"); // make the GUI
+	
+	public static void LETSGO() throws InterruptedException {
+		GUI gui = new GUI("Social Media App"); // make the GUI
 
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
 		gui.display(gui.user.getBoard().toPanel()); // now that we have a user we can show te board
+	}
 
-		System.out.println("hey");
-
+	public static void main(String[] main) throws InterruptedException {
+		LETSGO();
 	}
 
 }
