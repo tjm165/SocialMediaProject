@@ -39,7 +39,7 @@ public class Content implements Panelable {
 	}
 
 	@Override
-	public Panel toPanel() {
+	public Panel toPanel(User user, int index) {
 		Panel content = new Panel(1, 1);
 		if (getType().equals("TEXT")) {
 			Label text = new Label(getContent());

@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,13 +94,13 @@ public class Post implements Comparable<Post>, Panelable {
 	}
 
 	@Override
-	public Panel toPanel() {
+	public Panel toPanel(User user, int index) {
 		Panel panel = new Panel(1, 1);
-		Panel content = getContent().toPanel(); //you might think it could be a Label, but an image is not a Label
+		Panel content = getContent().toPanel(user, 0); //you might think it could be a Label, but an image is not a Label
 
 		panel.add(content);
 		panel.add(makeInfoPanel());
-		panel.add(makeInteractionPanel());
+		panel.add(makeInteractionPanel(user, index));
 
 
 		return panel;
@@ -113,12 +114,21 @@ public class Post implements Comparable<Post>, Panelable {
 		return panel;
 	}
 	
-	private Panel makeInteractionPanel() {
+	private Panel makeInteractionPanel(User user, int index) {
 		Panel panel = new Panel(2, 2);
 		Button upvote = new Button("Upvote");
 		Button downvote = new Button("Downvote");
 		TextArea commentText = new TextArea();
 		Button submitComment = new Button("Comment");
+		
+		upvote.addActionListener(e -> {
+			try {
+				user.upVote(index);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		
 		panel.add(upvote, 1, 0);
 		panel.add(downvote, 0, 0);

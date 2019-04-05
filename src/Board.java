@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import theme.Panel;
@@ -33,7 +34,7 @@ public class Board implements Panelable{
 		this.posts = posts;
 	}
 	
-	public Panel toPanel() {
+	public Panel toPanel(User user, int index) {
 		Panel panel = new Panel(2, 1);
 		
 		Panel createPost = new Panel(1, 1); //still need to make
@@ -44,8 +45,11 @@ public class Board implements Panelable{
 		
 		panel.add(createPost);
 		panel.add(posts);
-		for (Post post : this.posts)
-			posts.add(post.toPanel());
+		
+		int i = 0;
+		Iterator<Post> iter = this.posts.iterator();
+		while(iter.hasNext())
+			posts.add(iter.next().toPanel(user, i++));
 		
 		return panel;
 	}

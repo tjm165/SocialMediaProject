@@ -65,7 +65,7 @@ public class GUI extends JFrame {
 
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
-		gui.display(gui.user.getBoard().toPanel()); // now that we have a user we can show te board
+		gui.display(gui.user.getBoard().toPanel(gui.user, 0)); // now that we have a user we can show te board
 	}
 
 	public static void main(String[] main) throws InterruptedException {
