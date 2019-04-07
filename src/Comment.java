@@ -2,7 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Comment {
+public class Comment /*eventually implements Panelable */{
 	private Content content;
 	private Date dateCreated;
 	private String userId;

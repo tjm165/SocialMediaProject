@@ -3,9 +3,13 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-public class Board {
+import theme.Panel;
+import theme.TextArea;
+
+public class Board implements Panelable{
 	private List<Post> posts;
 
 	// https://stackoverflow.com/questions/1844688/how-to-read-all-files-in-a-folder-from-java
@@ -28,6 +32,26 @@ public class Board {
 
 	public Board(List<Post> posts) {
 		this.posts = posts;
+	}
+	
+	public Panel toPanel(User user, int index) {
+		Panel panel = new Panel(2, 1);
+		
+		Panel createPost = new Panel(1, 1); //still need to make
+		Panel posts = new Panel(this.numPosts(), 1);
+		
+		TextArea createPostContent = new TextArea();
+		createPost.add(createPostContent);
+		
+		panel.add(createPost);
+		panel.add(posts);
+		
+		int i = 0;
+		Iterator<Post> iter = this.posts.iterator();
+		while(iter.hasNext())
+			posts.add(iter.next().toPanel(user, i++));
+		
+		return panel;
 	}
 
 	public String toString() {
