@@ -28,7 +28,6 @@ public class Board implements Panelable {
 		Panel panel = new Panel(2, 2);
 		TextArea createPostContent = new TextArea();
 		Button submit = new Button("create post");
-		Button refresh = new Button("refresh");
 
 		panel.add(createPostContent);
 		panel.add(submit);

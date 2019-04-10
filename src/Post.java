@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.BoxLayout;
 
 import theme.*;
 
@@ -100,9 +103,9 @@ public class Post implements Comparable<Post>, Panelable {
 		Panel content = getContent().toPanel(user, 0); // you might think it could be a Label, but an image is not a
 														// Label
 
-		panel.add(content);
-		panel.add(makeInfoPanel());
-		panel.add(makeInteractionPanel(user, index));
+		panel.add(content, 0);
+		panel.add(makeInfoPanel(), 1);
+		panel.add(makeInteractionPanel(user, index), 1);
 
 		panel.setSize(1000, 1000);
 		return panel;
@@ -113,10 +116,12 @@ public class Post implements Comparable<Post>, Panelable {
 		Label netvote = new Label("Net Vote: " + getNetVote());
 		Label date = new Label("Date Created: " + getDateCreated());
 		Label userId = new Label("Created by: " + this.userId);
+		Label intLevel = new Label("Interest Level: " + this.getInterestLevel());
 
-		panel.add(netvote);
-		//panel.add(date);
-		//panel.add(userId);
+		panel.add(intLevel);
+		//panel.add(netvote);
+		// panel.add(date);
+		// panel.add(userId);
 
 		return panel;
 	}
@@ -136,7 +141,7 @@ public class Post implements Comparable<Post>, Panelable {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		downvote.addActionListener(e -> {
 			try {
 				user.downVote(index);
@@ -146,10 +151,10 @@ public class Post implements Comparable<Post>, Panelable {
 			}
 		});
 
-		panel.add(upvote, 1, 0);
-		panel.add(downvote, 0, 0);
-		panel.add(submitComment, 0, 1);
-		panel.add(commentText, 1, 1);
+		panel.add(upvote, BorderLayout.	AFTER_LAST_LINE);
+		panel.add(downvote, 0);
+		panel.add(submitComment, 0);
+		panel.add(commentText, BorderLayout.PAGE_END);
 
 		return panel;
 	}
