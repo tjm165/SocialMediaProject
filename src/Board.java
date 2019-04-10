@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.List;
 import theme.Button;
 import theme.Panel;
 import theme.TextArea;
+import theme.Theme;
 
 public class Board implements Panelable {
 	private List<Post> posts;
@@ -22,27 +24,33 @@ public class Board implements Panelable {
 		this.posts = posts;
 	}
 
-	private Panel makeCreatePostPanel(User user) {
+	private Panel makeCreatePostPanel(User user) throws FileNotFoundException {
 		Panel panel = new Panel(2, 2);
 		TextArea createPostContent = new TextArea();
 		Button submit = new Button("create post");
+		Button refresh = new Button("refresh");
 
 		panel.add(createPostContent);
 		panel.add(submit);
-
+		panel.add(refresh);
+		
 		submit.addActionListener(e -> {
 			try {
-				user.createTextPost(createPostContent.getText(), true);
+				user.createTextPost(createPostContent.getText(), false);
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
+		refresh.addActionListener(e -> {
+			user.getBoard().sortPosts();
+		});
 		return panel;
 	}
 
 	public Panel toPanel(User user, int index) {
-		Panel panel = new Panel(4, 4);
+		Panel panel = new Panel(4, 4); // shouldn't leave (4, 4)
+		panel.setBackground(Theme.COLOR_BACKGROUND);
 
 		Button refresh = new Button("Click to refresh");
 		refresh.addActionListener(e -> {
@@ -50,17 +58,22 @@ public class Board implements Panelable {
 			System.out.println("click");
 		});
 
-		Panel createPost = new Panel(1, 1); // still need to make
-		Panel posts = new Panel(this.numPosts(), 1);
+		//Panel posts = new Panel(this.numPosts(), 1); //not using because we are doing panel.add instead
 
 		// createPost.add(refresh);
-		panel.add(makeCreatePostPanel(user));
-		panel.add(posts);
 
 		int i = 0;
 		Iterator<Post> iter = this.posts.iterator();
 		while (iter.hasNext())
-			posts.add(iter.next().toPanel(user, i++));
+			panel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
+
+		try {
+			panel.add(makeCreatePostPanel(user), BorderLayout.PAGE_END);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//panel.add(posts);
 
 		return panel;
 	}
@@ -91,9 +104,10 @@ public class Board implements Panelable {
 	public void sortPosts() {
 		for (int i = 0; i < posts.size(); i++) {
 			posts.get(i).calculateInterestLevel();
+			System.out.println("running");
 			if (posts.get(i).getInterestLevel() <= 0) {
 				File file = new File(posts.get(i).getPathname());
-				// System.out.println(posts.get(i).getInterestLevel()); //For testing
+				System.out.println(posts.get(i).getInterestLevel()); //For testing
 				file.delete();
 				removePost(i);
 			}

@@ -184,8 +184,9 @@ public class User {
 		//demo1();
 		 User user = new User("rocketman57");
 		//user.downVote(0);
-		 user.createTextPost("hello world", false);
+		 //user.createTextPost("hello world", false);
 
+		 System.out.println(user.getBoard().toString());
 		// user.addComment(0, "I like that post");
 	}
 
