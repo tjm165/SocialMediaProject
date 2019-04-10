@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -132,6 +133,16 @@ public class Post implements Comparable<Post>, Panelable {
 		Button downvote = new Button("Downvote");
 		TextArea commentText = new TextArea();
 		Button submitComment = new Button("Comment");
+		Panel commentsPanel = new Panel(1, 1);
+		
+		submitComment.addActionListener(e -> {
+			try {
+				user.addComment(index, commentText.getText());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 
 		upvote.addActionListener(e -> {
 			try {
@@ -150,11 +161,17 @@ public class Post implements Comparable<Post>, Panelable {
 				e1.printStackTrace();
 			}
 		});
+		
+		int i = 0;
+		Iterator<Comment> iter = this.comments.iterator();
+		while (iter.hasNext())
+			commentsPanel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
 
-		panel.add(upvote, BorderLayout.	AFTER_LAST_LINE);
-		panel.add(downvote, 0);
-		panel.add(submitComment, 0);
-		panel.add(commentText, BorderLayout.PAGE_END);
+		panel.add(upvote);
+		panel.add(downvote);
+		panel.add(submitComment);
+		panel.add(commentText);
+		panel.add(commentsPanel);
 
 		return panel;
 	}
