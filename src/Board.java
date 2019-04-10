@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Scrollbar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JScrollPane;
 
 import theme.Button;
 import theme.Panel;
@@ -46,6 +49,9 @@ public class Board implements Panelable {
 
 	public Panel toPanel(User user, int index) {
 		Panel panel = new Panel(4, 4); // shouldn't leave (4, 4)
+		
+		
+		
 		panel.setBackground(Theme.COLOR_BACKGROUND);
 
 		Button refresh = new Button("Click to refresh");
@@ -69,6 +75,7 @@ public class Board implements Panelable {
 			e1.printStackTrace();
 		}
 		//panel.add(posts);
+
 
 		return panel;
 	}

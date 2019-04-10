@@ -20,6 +20,10 @@ public class GUI extends JFrame {
 		this.hotPanel = null;
 		this.user = null;
 		this.signedIn = new CountDownLatch(1);
+		//JScrollPane v = new JScrollPane();
+		//v.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		//getContentPane().add(v);
+		
 	}
 
 	//I think this will be a very important method
@@ -63,7 +67,7 @@ public class GUI extends JFrame {
 	public static void LETSGO() throws InterruptedException {
 		GUI gui = new GUI("Social Media App"); // make the GUI
 		gui.setSize(1600, 2000);
-
+		
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
 		gui.user.getBoard().sortPosts();
