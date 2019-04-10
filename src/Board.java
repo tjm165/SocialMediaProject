@@ -32,7 +32,7 @@ public class Board implements Panelable {
 
 		submit.addActionListener(e -> {
 			try {
-				user.createTextPost(createPostContent.getText(), true);
+				user.createTextPost(createPostContent.getText(), false);
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -50,7 +50,6 @@ public class Board implements Panelable {
 			System.out.println("click");
 		});
 
-		Panel createPost = new Panel(1, 1); // still need to make
 		Panel posts = new Panel(this.numPosts(), 1);
 
 		// createPost.add(refresh);
