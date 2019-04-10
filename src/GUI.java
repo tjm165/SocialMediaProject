@@ -76,7 +76,9 @@ public class GUI extends JFrame {
 		boolean running = true;
 		while(running) {
 			gui.user.refresh.await();
-			gui.display(boardPanel);
+			gui.display(gui.user.getBoard().toPanel(gui.user, 0));
+			System.out.println("refresh");
+			gui.user.refresh = new CountDownLatch(1);
 		}
 	}
 

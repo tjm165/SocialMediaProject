@@ -32,7 +32,7 @@ public class Board implements Panelable {
 
 		panel.add(createPostContent);
 		panel.add(submit);
-		panel.add(refresh);
+		//panel.add(refresh);
 		
 		submit.addActionListener(e -> {
 			try {
@@ -41,9 +41,6 @@ public class Board implements Panelable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		});
-		refresh.addActionListener(e -> {
-			user.getBoard().sortPosts();
 		});
 		return panel;
 	}
@@ -57,10 +54,9 @@ public class Board implements Panelable {
 			user.refreshGUI();
 			System.out.println("click");
 		});
+		panel.add(refresh);
 
 		//Panel posts = new Panel(this.numPosts(), 1); //not using because we are doing panel.add instead
-
-		// createPost.add(refresh);
 
 		int i = 0;
 		Iterator<Post> iter = this.posts.iterator();
@@ -104,7 +100,6 @@ public class Board implements Panelable {
 	public void sortPosts() {
 		for (int i = 0; i < posts.size(); i++) {
 			posts.get(i).calculateInterestLevel();
-			System.out.println("running");
 			if (posts.get(i).getInterestLevel() <= 0) {
 				File file = new File(posts.get(i).getPathname());
 				System.out.println(posts.get(i).getInterestLevel()); //For testing
