@@ -62,10 +62,14 @@ public class GUI extends JFrame {
 	
 	public static void LETSGO() throws InterruptedException {
 		GUI gui = new GUI("Social Media App"); // make the GUI
+		gui.setSize(1600, 2000);
 
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
+		gui.user.getBoard().sortPosts();
 		Panel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
+		boardPanel.setFont(boardPanel.getFont().deriveFont(72));
+		
 		gui.display(boardPanel); // now that we have a user we can show te board
 		
 		
