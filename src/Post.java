@@ -107,9 +107,14 @@ public class Post implements Comparable<Post>, Panelable {
 	}
 	
 	private Panel makeInfoPanel() {
-		Panel panel = new Panel(1, 1);
+		Panel panel = new Panel(10, 1);
 		Label netvote = new Label("Net Vote: " + getNetVote());
+		Label date = new Label("Date Created: " + getDateCreated());
+		Label userId = new Label("Created by: " + this.userId);
+
 		panel.add(netvote);
+		panel.add(date);
+		panel.add(userId);
 		
 		return panel;
 	}
