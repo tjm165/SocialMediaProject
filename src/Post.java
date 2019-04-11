@@ -138,6 +138,7 @@ public class Post implements Comparable<Post>, Panelable {
 		submitComment.addActionListener(e -> {
 			try {
 				user.addComment(index, commentText.getText());
+				user.refreshGUI();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -147,6 +148,7 @@ public class Post implements Comparable<Post>, Panelable {
 		upvote.addActionListener(e -> {
 			try {
 				user.upVote(index);
+				user.refreshGUI();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -156,6 +158,7 @@ public class Post implements Comparable<Post>, Panelable {
 		downvote.addActionListener(e -> {
 			try {
 				user.downVote(index);
+				user.refreshGUI();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

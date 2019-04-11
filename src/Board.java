@@ -39,6 +39,7 @@ public class Board implements Panelable {
 		submit.addActionListener(e -> {
 			try {
 				user.createTextPost(createPostContent.getText(), false);
+				user.refreshGUI();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
