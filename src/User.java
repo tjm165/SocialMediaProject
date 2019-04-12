@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ public class User {
 	public final static String BOARD_DIRECTORY = "board_directory/";
 	private String userId;
 	private Board board;
+	protected CountDownLatch refresh;
 
 	public User(String userId) {
 		this.userId = userId;
@@ -30,6 +32,7 @@ public class User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.refresh = new CountDownLatch(1);
 	}
 
 	public Board getBoard() {
@@ -42,6 +45,12 @@ public class User {
 
 	public void refreshBoard() {
 		board.sortPosts();
+	}
+	
+	public void refreshGUI() {
+		refreshBoard();
+		System.out.println("refresh");
+		this.refresh.countDown();
 	}
 
 	public void upVote(int postIndex) throws FileNotFoundException {
@@ -174,9 +183,10 @@ public class User {
 	public static void main(String[] args) throws IOException, ParseException {
 		//demo1();
 		 User user = new User("rocketman57");
-		 user.downVote(0);
-		// user.createTextPost("hello world", false);
+		//user.downVote(0);
+		 //user.createTextPost("hello world", false);
 
+		 System.out.println(user.getBoard().toString());
 		// user.addComment(0, "I like that post");
 	}
 

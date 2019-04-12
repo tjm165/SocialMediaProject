@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,9 +8,12 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.BoxLayout;
 
 import theme.*;
 
@@ -96,47 +100,82 @@ public class Post implements Comparable<Post>, Panelable {
 	@Override
 	public Panel toPanel(User user, int index) {
 		Panel panel = new Panel(1, 1);
-		Panel content = getContent().toPanel(user, 0); //you might think it could be a Label, but an image is not a Label
 
-		panel.add(content);
-		panel.add(makeInfoPanel());
-		panel.add(makeInteractionPanel(user, index));
+		Panel content = getContent().toPanel(user, 0); // you might think it could be a Label, but an image is not a
+														// Label
 
+		panel.add(content, 0);
+		panel.add(makeInfoPanel(), 1);
+		panel.add(makeInteractionPanel(user, index), 1);
 
+		panel.setSize(1000, 1000);
 		return panel;
 	}
-	
+
 	private Panel makeInfoPanel() {
-		Panel panel = new Panel(1, 1);
+		Panel panel = new Panel(10, 1);
 		Label netvote = new Label("Net Vote: " + getNetVote());
-		panel.add(netvote);
-		
+		Label date = new Label("Date Created: " + getDateCreated());
+		Label userId = new Label("Created by: " + this.userId);
+		Label intLevel = new Label("Interest Level: " + this.getInterestLevel());
+
+		panel.add(intLevel);
+		//panel.add(netvote);
+		// panel.add(date);
+		// panel.add(userId);
+
 		return panel;
 	}
-	
+
 	private Panel makeInteractionPanel(User user, int index) {
 		Panel panel = new Panel(2, 2);
 		Button upvote = new Button("Upvote");
 		Button downvote = new Button("Downvote");
 		TextArea commentText = new TextArea();
 		Button submitComment = new Button("Comment");
+		Panel commentsPanel = new Panel(1, 1);
 		
+		submitComment.addActionListener(e -> {
+			try {
+				user.addComment(index, commentText.getText());
+				user.refreshGUI();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
 		upvote.addActionListener(e -> {
 			try {
 				user.upVote(index);
+				user.refreshGUI();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+		downvote.addActionListener(e -> {
+			try {
+				user.downVote(index);
+				user.refreshGUI();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
 		
-		panel.add(upvote, 1, 0);
-		panel.add(downvote, 0, 0);
-		panel.add(submitComment, 0, 1);
-		panel.add(commentText, 1, 1);
+		int i = 0;
+		Iterator<Comment> iter = this.comments.iterator();
+		while (iter.hasNext())
+			commentsPanel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
 
-		
-		
+		panel.add(upvote);
+		panel.add(downvote);
+		panel.add(submitComment);
+		panel.add(commentText);
+		panel.add(commentsPanel);
+
 		return panel;
 	}
 

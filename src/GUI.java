@@ -20,6 +20,10 @@ public class GUI extends JFrame {
 		this.hotPanel = null;
 		this.user = null;
 		this.signedIn = new CountDownLatch(1);
+		//JScrollPane v = new JScrollPane();
+		//v.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		//getContentPane().add(v);
+		
 	}
 
 	//I think this will be a very important method
@@ -62,10 +66,28 @@ public class GUI extends JFrame {
 	
 	public static void LETSGO() throws InterruptedException {
 		GUI gui = new GUI("Social Media App"); // make the GUI
-
+		gui.setSize(1600, 2000);
+		
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
+<<<<<<< HEAD
 		gui.display(gui.user.getBoard().toPanel(gui.user, 0)); // now that we have a user we can show the board
+=======
+		gui.user.getBoard().sortPosts();
+		Panel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
+		boardPanel.setFont(boardPanel.getFont().deriveFont(72));
+		
+		gui.display(boardPanel); // now that we have a user we can show te board
+		
+		
+		boolean running = true;
+		while(running) {
+			gui.user.refresh.await();
+			gui.display(gui.user.getBoard().toPanel(gui.user, 0));
+			System.out.println("refresh");
+			gui.user.refresh = new CountDownLatch(1);
+		}
+>>>>>>> f490a77a7b09f8887f3d9a4f63308de18cf6a4a3
 	}
 
 	public static void main(String[] main) throws InterruptedException {

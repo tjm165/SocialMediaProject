@@ -6,5 +6,6 @@ public class Label extends JLabel{
 
 	public Label(String text) {
 		super(text);
+		this.setFont(Theme.FONT);
 	}
 }

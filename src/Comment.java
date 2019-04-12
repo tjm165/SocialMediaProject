@@ -2,7 +2,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Comment /*eventually implements Panelable */{
+import theme.Label;
+import theme.Panel;
+
+public class Comment implements Panelable{
 	private Content content;
 	private Date dateCreated;
 	private String userId;
@@ -52,6 +55,16 @@ public class Comment /*eventually implements Panelable */{
 		String userId = commentLines[2];
 
 		return new Comment(content, dateCreatedObj, userId);
+	}
+
+	@Override
+	public Panel toPanel(User user, int index) {
+		Panel panel = new Panel(1, 1);
+		Label content = new Label(this.getContent().getContent());
+		
+		panel.add(content);
+		
+		return panel;
 	}
 
 }
