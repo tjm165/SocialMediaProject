@@ -70,14 +70,11 @@ public class GUI extends JFrame {
 		
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
-<<<<<<< HEAD
-		gui.display(gui.user.getBoard().toPanel(gui.user, 0)); // now that we have a user we can show the board
-=======
 		gui.user.getBoard().sortPosts();
 		Panel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
 		boardPanel.setFont(boardPanel.getFont().deriveFont(72));
 		
-		gui.display(boardPanel); // now that we have a user we can show te board
+		gui.display(boardPanel); // now that we have a user we can show the board
 		
 		
 		boolean running = true;
@@ -87,7 +84,6 @@ public class GUI extends JFrame {
 			System.out.println("refresh");
 			gui.user.refresh = new CountDownLatch(1);
 		}
->>>>>>> f490a77a7b09f8887f3d9a4f63308de18cf6a4a3
 	}
 
 	public static void main(String[] main) throws InterruptedException {
