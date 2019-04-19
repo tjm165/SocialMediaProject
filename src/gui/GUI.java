@@ -1,9 +1,11 @@
+package gui;
 import java.awt.Component.*;
 import java.awt.GridLayout;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.*;
 
+import system_classes.User;
 import theme.Button;
 import theme.Panel;
 import theme.TextArea;

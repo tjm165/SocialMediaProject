@@ -1,3 +1,4 @@
+package system_classes;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,12 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-
-import theme.*;
-
-public class Post implements Comparable<Post>, Panelable {
+public class Post implements Comparable<Post>{
 	private String pathname;//
 	private Content content;
 	private Date dateCreated;
@@ -99,126 +95,6 @@ public class Post implements Comparable<Post>, Panelable {
 		int ageInHours = (int) TimeUnit.MILLISECONDS.toHours(ageInMillis);
 
 		return ageInHours;
-	}
-	
-	private int necessaryRows() {
-		int rows = 2 + this.numComments();
-		return rows;
-	}
-
-	@Override
-	public JPanel toPanel(User user, int index) {
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new GridLayout(this.necessaryRows(),1,10,10));
-
-		JPanel content = getContent().toPanel(user, 0); // you might think it could be a Label, but an image is not a
-														// Label
-
-		panel.add(content, 0);
-		panel.add(makeInfoPanel(), 1);
-		panel.add(makeInteractionPanel(user, index), 1);
-
-		panel.setSize(1000, 1000);
-		return panel;
-	}
-
-	private JPanel makeInfoPanel() {
-		JPanel panel = new JPanel();
-		Label netvote = new Label("Net Vote: " + getNetVote());
-		Label date = new Label("Date Created: " + getDateCreated());
-		Label userId = new Label("Created by: " + this.userId);
-		Label intLevel = new Label("Interest Level: " + this.getInterestLevel());
-
-		panel.add(intLevel);
-		//panel.add(netvote);
-		// panel.add(date);
-		// panel.add(userId);
-
-		return panel;
-	}
-
-	private JPanel makeInteractionPanel(User user, int index) {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		Button upvote = new Button("Upvote");
-		Button downvote = new Button("Downvote");
-		TextArea commentText = new TextArea();
-		Button submitComment = new Button("Comment");
-		JPanel commentsPanel = new JPanel();
-		
-		submitComment.addActionListener(e -> {
-			try {
-				user.addComment(index, commentText.getText());
-				user.refreshGUI();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-
-		upvote.addActionListener(e -> {
-			try {
-				user.upVote(index);
-				user.refreshGUI();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-
-		downvote.addActionListener(e -> {
-			try {
-				user.downVote(index);
-				user.refreshGUI();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		
-		int i = 0;
-		Iterator<Comment> iter = this.comments.iterator();
-		while (iter.hasNext())
-			commentsPanel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
-		
-		//specifies the distribution and placement of upvote
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		panel.add(upvote);
-		
-		//specifies the distribution and placement of downvote
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 0;
-		panel.add(downvote);
-		
-		//specifies the distribution and placement of submit comment panel
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridx = 0;
-		c.gridy = 1;
-		panel.add(submitComment);
-
-		//specifies the distribution and placement of submit comment text box
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 1;
-		panel.add(commentText);
-
-		//specifies the distribution and placement of comments panel
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.ipady = 20;
-		c.gridx = 0;
-		c.gridy = 2;
-		panel.add(commentsPanel);
-
-		return panel;
 	}
 
 	public String toFileNotation() {
