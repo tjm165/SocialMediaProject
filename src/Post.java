@@ -1,4 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 import theme.*;
 
@@ -96,12 +100,19 @@ public class Post implements Comparable<Post>, Panelable {
 
 		return ageInHours;
 	}
+	
+	private int necessaryRows() {
+		int rows = 2 + this.numComments();
+		return rows;
+	}
 
 	@Override
-	public Panel toPanel(User user, int index) {
-		Panel panel = new Panel(1, 1);
+	public JPanel toPanel(User user, int index) {
+		JPanel panel = new JPanel();
 
-		Panel content = getContent().toPanel(user, 0); // you might think it could be a Label, but an image is not a
+		panel.setLayout(new GridLayout(this.necessaryRows(),1,10,10));
+
+		JPanel content = getContent().toPanel(user, 0); // you might think it could be a Label, but an image is not a
 														// Label
 
 		panel.add(content, 0);
@@ -112,8 +123,8 @@ public class Post implements Comparable<Post>, Panelable {
 		return panel;
 	}
 
-	private Panel makeInfoPanel() {
-		Panel panel = new Panel(10, 1);
+	private JPanel makeInfoPanel() {
+		JPanel panel = new JPanel();
 		Label netvote = new Label("Net Vote: " + getNetVote());
 		Label date = new Label("Date Created: " + getDateCreated());
 		Label userId = new Label("Created by: " + this.userId);
@@ -127,13 +138,15 @@ public class Post implements Comparable<Post>, Panelable {
 		return panel;
 	}
 
-	private Panel makeInteractionPanel(User user, int index) {
-		Panel panel = new Panel(2, 2);
+	private JPanel makeInteractionPanel(User user, int index) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		Button upvote = new Button("Upvote");
 		Button downvote = new Button("Downvote");
 		TextArea commentText = new TextArea();
 		Button submitComment = new Button("Comment");
-		Panel commentsPanel = new Panel(1, 1);
+		JPanel commentsPanel = new JPanel();
 		
 		submitComment.addActionListener(e -> {
 			try {
@@ -169,11 +182,40 @@ public class Post implements Comparable<Post>, Panelable {
 		Iterator<Comment> iter = this.comments.iterator();
 		while (iter.hasNext())
 			commentsPanel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
-
+		
+		//specifies the distribution and placement of upvote
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
 		panel.add(upvote);
+		
+		//specifies the distribution and placement of downvote
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 1;
+		c.gridy = 0;
 		panel.add(downvote);
+		
+		//specifies the distribution and placement of submit comment panel
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 0;
+		c.gridy = 1;
 		panel.add(submitComment);
+
+		//specifies the distribution and placement of submit comment text box
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 1;
+		c.gridy = 1;
 		panel.add(commentText);
+
+		//specifies the distribution and placement of comments panel
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.ipady = 20;
+		c.gridx = 0;
+		c.gridy = 2;
 		panel.add(commentsPanel);
 
 		return panel;

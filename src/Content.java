@@ -1,3 +1,5 @@
+import javax.swing.JPanel;
+
 import theme.Label;
 import theme.Panel;
 
@@ -39,8 +41,8 @@ public class Content implements Panelable {
 	}
 
 	@Override
-	public Panel toPanel(User user, int index) {
-		Panel content = new Panel(1, 1);
+	public JPanel toPanel(User user, int index) {
+		JPanel content = new JPanel();
 		if (getType().equals("TEXT")) {
 			Label text = new Label(getContent());
 			content.add(text);

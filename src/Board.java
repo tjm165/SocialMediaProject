@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Scrollbar;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import theme.Button;
@@ -27,8 +29,8 @@ public class Board implements Panelable {
 		this.posts = posts;
 	}
 
-	private Panel makeCreatePostPanel(User user) throws FileNotFoundException {
-		Panel panel = new Panel(2, 2);
+	private JPanel makeCreatePostPanel(User user) throws FileNotFoundException {
+		JPanel panel = new JPanel();
 		TextArea createPostContent = new TextArea();
 		Button submit = new Button("create post");
 
@@ -47,10 +49,21 @@ public class Board implements Panelable {
 		});
 		return panel;
 	}
-
-	public Panel toPanel(User user, int index) {
-		Panel panel = new Panel(4, 4); // shouldn't leave (4, 4)
+	
+	public int necessaryRows() {
+		int rows = 2; //Starts with initial rows for the "refresh button" and the submit post panel
+		rows = rows + this.numPosts()*2;
+		for(int i = 0; i < this.numPosts(); i++) {
+			rows = rows + this.getPost(i).numComments();
+		}
 		
+		return rows;
+	}
+
+	public JPanel toPanel(User user, int index) {
+		JPanel panel = new JPanel(); // shouldn't leave (4, 4)
+
+		panel.setLayout(new GridLayout(this.necessaryRows(),1,10,10));
 		
 		
 		panel.setBackground(Theme.COLOR_BACKGROUND);
