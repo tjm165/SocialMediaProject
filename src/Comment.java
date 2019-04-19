@@ -2,6 +2,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JPanel;
+
 import theme.Label;
 import theme.Panel;
 
@@ -58,8 +60,8 @@ public class Comment implements Panelable{
 	}
 
 	@Override
-	public Panel toPanel(User user, int index) {
-		Panel panel = new Panel(1, 1);
+	public JPanel toPanel(User user, int index) {
+		JPanel panel = new JPanel();
 		Label content = new Label(this.getContent().getContent());
 		
 		panel.add(content);

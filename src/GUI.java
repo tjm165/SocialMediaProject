@@ -1,4 +1,5 @@
 import java.awt.Component.*;
+import java.awt.GridLayout;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.*;
@@ -16,7 +17,6 @@ public class GUI extends JFrame {
 	public GUI(String title) {
 		super(title);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(300, 300);
 		this.hotPanel = null;
 		this.user = null;
 		this.signedIn = new CountDownLatch(1);
@@ -71,10 +71,10 @@ public class GUI extends JFrame {
 		gui.display(gui.signIn()); // add the signin panel
 		gui.signedIn.await(); // wait for gui.user to be set
 		gui.user.getBoard().sortPosts();
-		Panel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
+		JPanel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
 		boardPanel.setFont(boardPanel.getFont().deriveFont(72));
 		
-		gui.display(boardPanel); // now that we have a user we can show te board
+		gui.display(boardPanel); // now that we have a user we can show the board
 		
 		
 		boolean running = true;
