@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import theme.*;
 
 public class Post implements Comparable<Post>, Panelable {
-	private String pathname;
+	private String pathname;//
 	private Content content;
 	private Date dateCreated;
 	private int netVote;
