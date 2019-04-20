@@ -12,7 +12,7 @@ public class Cell extends JPanel {
 	private JPanel[][] grid;
 
 	public Cell(int rows, int cols) {
-		this.setLayout(new GridLayout(rows, cols, 50, 50));
+		this.setLayout(new GridLayout(rows, cols, 0, 0));
 		this.setBackground(Theme.COLOR_ACCENT1);
 		this.setFont(Theme.FONT);
 		this.setBorder(Theme.BORDER);
