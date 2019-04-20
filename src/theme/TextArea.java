@@ -6,6 +6,6 @@ public class TextArea extends JTextArea{
 
 	public TextArea() {
 		super(1, 20);
-		this.setFont(Theme.FONT);
+		//this.setFont(Theme.FONT);
 	}
 }

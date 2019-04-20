@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Scrollbar;
+package system_classes;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,15 +8,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import theme.Button;
-import theme.Panel;
-import theme.TextArea;
-import theme.Theme;
-
-public class Board implements Panelable {
+public class Board {
 	private List<Post> posts;
 
 	public Board() {
@@ -27,27 +18,6 @@ public class Board implements Panelable {
 
 	public Board(List<Post> posts) {
 		this.posts = posts;
-	}
-
-	private JPanel makeCreatePostPanel(User user) throws FileNotFoundException {
-		JPanel panel = new JPanel();
-		TextArea createPostContent = new TextArea();
-		Button submit = new Button("create post");
-
-		panel.add(createPostContent);
-		panel.add(submit);
-		//panel.add(refresh);
-		
-		submit.addActionListener(e -> {
-			try {
-				user.createTextPost(createPostContent.getText(), false);
-				user.refreshGUI();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		return panel;
 	}
 	
 	public int necessaryRows() {
@@ -58,40 +28,6 @@ public class Board implements Panelable {
 		}
 		
 		return rows;
-	}
-
-	public JPanel toPanel(User user, int index) {
-		JPanel panel = new JPanel(); // shouldn't leave (4, 4)
-
-		panel.setLayout(new GridLayout(this.necessaryRows(),1,10,10));
-		
-		
-		panel.setBackground(Theme.COLOR_BACKGROUND);
-
-		Button refresh = new Button("Click to refresh");
-		refresh.addActionListener(e -> {
-			user.refreshGUI();
-			System.out.println("click");
-		});
-		panel.add(refresh);
-
-		//Panel posts = new Panel(this.numPosts(), 1); //not using because we are doing panel.add instead
-
-		int i = 0;
-		Iterator<Post> iter = this.posts.iterator();
-		while (iter.hasNext())
-			panel.add(iter.next().toPanel(user, i++), BorderLayout.PAGE_END);
-
-		try {
-			panel.add(makeCreatePostPanel(user), BorderLayout.PAGE_END);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		//panel.add(posts);
-
-
-		return panel;
 	}
 
 	public String toString() {
