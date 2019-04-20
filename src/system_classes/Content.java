@@ -2,7 +2,7 @@ package system_classes;
 import javax.swing.JPanel;
 
 import theme.Label;
-import theme.Panel;
+import theme.Cell;
 
 public class Content {
 	private String type;
