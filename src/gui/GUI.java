@@ -1,18 +1,13 @@
 package gui;
 
-import java.awt.Component.*;
-import java.awt.GridLayout;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.*;
-
-import system_classes.Board;
-import system_classes.Post;
-import system_classes.User;
-import theme.Button;
-import theme.Cell;
-import theme.TextArea;
+import system_classes.*;
+import theme.*;
 
 public class GUI extends JFrame {
 
@@ -43,52 +38,76 @@ public class GUI extends JFrame {
 	}
 
 	private Cell signInPanel() {
-		// Initialize what we need
-		Cell signIn = new Cell(1, 2);
+		Cell signIn = new Cell(2, 1);
+		Cell form = new Cell(1, 2);
+
 		TextArea textbox = new TextArea();
 		Button submit = new Button("submit");
+		Label prompt = new Label("Please enter a username!");
 
 		submit.addActionListener(e -> {
-			this.user = new User(textbox.getText());
-			System.out.println(user);
-			nextState.countDown();
+			if (textbox.getText().equals("")) {
+				prompt.setForeground(Theme.COLOR_ERROR);
+			} else {
+				System.out.println(textbox.getText());
+				this.user = new User(textbox.getText());
+				System.out.println(user);
+				nextState.countDown();
+			}
 		});
 
-		signIn.setCell(textbox, 1, 1);
-		signIn.setCell(submit, 1, 2);
-
+		form.setCell(textbox, 1, 1);
+		form.setCell(submit, 1, 2);
+		signIn.setCell(prompt, 1, 1);
+		signIn.setCell(form, 2, 1);
 		return signIn;
 	}
 
 	private Cell homePagePanel() {
-		//user = new User(this.user.getUserId());
-		Board board = this.user.testBoard(); //NOTE: update
+		// user = new User(this.user.getUserId());
+		Board board = this.user.testBoard(); // NOTE: update
 		board.sortPosts();
 		int numRows = this.determineNumRows();
+		Cell header = new Cell(1, 2);
 		Cell homePage = new Cell(numRows, 1);
 
 		Button refresh = new Button("refresh");
-		refresh.addActionListener( e -> {
+		refresh.addActionListener(e -> {
 			nextState.countDown();
 		});
-		
-		homePage.setCell(refresh, 1, 1);
-		homePage.setCell(createPostCell(), 2, 1);
+
+		header.setCell(createPostCell(), 1, 1);
+		header.setCell(refresh, 1, 2);
+
+		homePage.setCell(header, 1, 1);
 		for (int i = 0; i < board.numPosts(); i++)
-			homePage.setCell(this.postCell(board.getPost(i), i), i + 3, 1);
+			homePage.setCell(this.postCell(board.getPost(i), i), i + 2, 1);
 
 		return homePage;
 	}
 
 	private Cell postCell(Post post, int index) {
-		Cell cell = new Cell(1, 3);
-		Cell left = new Cell(3, 1); // the content, details, and add comment
-		Cell mid = new Cell(2, 1); // upvote, downvote
-		Cell right = new Cell(post.numComments(), 1); // comments
+		Cell cell = new Cell(1, 4);
+		Cell info = new Cell(3, 1); // the content and detials
+		Cell vote = new Cell(2, 1); // upvote, downvote
+		Cell addComment = new Cell(2, 1);
+		Cell comments = new Cell(post.numComments(), 1); // fix
 
-		left.setCell(post.getContent().getContent(), 1, 1); // NOTE: need to change for images
-		left.setCell(post.getInterestLevel() + "", 2, 1);
+		// Info
+		Content content = post.getContent();
+		if (content.getType().equals(Content.TYPE_TEXT))
+			info.setCell(post.getContent().getContent(), 1, 1);
+		else
+			try {
+				info.setCell(new Image(post.getContent().getContent()), 1, 1);
+			} catch (IOException e2) {
+				System.out.println("type was: " + post.getContent().getType());
+				e2.printStackTrace();
+			}
+		info.setCell("Interest Level: " + post.getInterestLevel(), 2, 1);
+		info.setCell("User: " + ((post.getUserId().equals("null")) ? "N/A" : post.getUserId()), 3, 1);
 
+		// Vote
 		Button upvote = new Button("Upvote");
 		upvote.addActionListener(e -> {
 			try {
@@ -111,12 +130,35 @@ public class GUI extends JFrame {
 			nextState.countDown();
 		});
 
-		mid.setCell(upvote, 1, 1);
-		mid.setCell(downvote, 2, 1);
+		vote.setCell(upvote, 1, 1);
+		vote.setCell(downvote, 2, 1);
 
-		cell.setCell(left, 1, 1);
-		cell.setCell(mid, 1, 2);
-		cell.setCell(right, 1, 3);
+		// Add Comment
+		TextArea comment = new TextArea();
+		Button submit = new Button("Add Comment");
+
+		submit.addActionListener(e -> {
+			try {
+				user.addComment(index, comment.getText());
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			nextState.countDown();
+		});
+		addComment.setCell(comment, 1, 1);
+		addComment.setCell(submit, 2, 1);
+
+		// Comments
+		Iterator<Comment> iter = post.getIterator();
+		int i = 1;
+		while (iter.hasNext())
+			comments.setCell(iter.next().getContent().getContent(), i++, 1);
+
+		cell.setCell(info, 1, 1);
+		cell.setCell(vote, 1, 2);
+		cell.setCell(addComment, 1, 3);
+		cell.setCell(comments, 1, 4);
 
 		return cell;
 	}
@@ -128,10 +170,19 @@ public class GUI extends JFrame {
 
 		TextArea content = new TextArea();
 		Button submit = new Button("Create Post");
+		CheckBox imageCheck = new CheckBox("Image");
+		CheckBox anonCheck = new CheckBox("Anonymous");
 
 		submit.addActionListener(e -> {
 			try {
-				user.createTextPost(content.getText(), false);// Anon
+				if (imageCheck.isSelected()) {
+					System.out.println("CREATE IMAGE");
+					user.createImagePost(content.getText(), anonCheck.isSelected());
+				} else {
+					System.out.println("CRETE TEXT");
+					user.createTextPost(content.getText(), anonCheck.isSelected());
+				}
+
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -142,6 +193,9 @@ public class GUI extends JFrame {
 		top.setCell(content, 1, 1);
 		top.setCell(submit, 1, 2);
 
+		bottom.setCell(anonCheck, 1, 1);
+		bottom.setCell(imageCheck, 1, 2);
+
 		cell.setCell(top, 1, 1);
 		cell.setCell(bottom, 2, 1);
 		return cell;
@@ -149,7 +203,7 @@ public class GUI extends JFrame {
 
 	private int determineNumRows() {
 		Board board = this.user.getBoard();
-		int numRows = 3 + board.numPosts();
+		int numRows = 1 + board.numPosts();
 		return numRows;
 	}
 
@@ -165,18 +219,6 @@ public class GUI extends JFrame {
 			gui.nextState = new CountDownLatch(1);
 		}
 	}
-
-	/*
-	 * JPanel boardPanel = gui.user.getBoard().toPanel(gui.user, 0);
-	 * boardPanel.setFont(boardPanel.getFont().deriveFont(72));
-	 * 
-	 * gui.display(boardPanel); // now that we have a user we can show the board
-	 * 
-	 * 
-	 * boolean running = true; while(running) { gui.user.refresh.await();
-	 * gui.display(gui.user.getBoard().toPanel(gui.user, 0));
-	 * System.out.println("refresh"); gui.user.refresh = new CountDownLatch(1); }
-	 */
 
 	public static void main(String[] main) throws InterruptedException {
 		runGUI();

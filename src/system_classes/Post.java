@@ -40,6 +40,10 @@ public class Post implements Comparable<Post>{
 	public int numComments() {
 		return comments.size();
 	}
+	
+	public Iterator<Comment> getIterator(){
+		return comments.iterator();
+	}
 
 	public void addComment(Comment comment) {
 		comments.add(comment);

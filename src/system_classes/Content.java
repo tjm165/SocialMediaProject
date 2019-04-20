@@ -1,5 +1,4 @@
 package system_classes;
-
 import javax.swing.JPanel;
 
 import theme.Label;
@@ -8,12 +7,14 @@ import theme.Cell;
 public class Content {
 	private String type;
 	private String content;
+	public static String TYPE_TEXT = "TEXT";
+	public static String TYPE_IMAGE = "IMAGE";
 
 	public Content(String type, String content) {
-		if (type.equals("TEXT") || type.equals("IMAGE")) {
+		if (type.equals(TYPE_IMAGE) || type.equals(TYPE_TEXT)) {
 			this.type = type;
 		} else {
-			this.type = "TEXT"; // maybe we should throw an error instead?
+			this.type = TYPE_TEXT; // maybe we should throw an error instead?
 		}
 		this.content = content;
 	}

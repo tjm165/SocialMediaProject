@@ -86,11 +86,11 @@ public class User {
 	}
 
 	public void createTextPost(String text, boolean anon) throws FileNotFoundException {
-		this.createPost("TEXT", text, anon);
+		this.createPost(Content.TYPE_TEXT, text, anon);
 	}
 
 	public void createImagePost(String imgURL, boolean anon) throws FileNotFoundException {
-		this.createPost("IMAGE", imgURL, anon);
+		this.createPost(Content.TYPE_IMAGE, imgURL, anon);
 	}
 
 	// Jared can you see if this works when you do the demo

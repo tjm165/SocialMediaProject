@@ -21,7 +21,7 @@ public class Theme {
 	public static final Color COLOR_BUTTON_MAIN = COLOR_ACCENT3;
 
 	public static final Font FONT = new Font("Serif", Font.PLAIN, 72);
-	public static final LineBorder BORDER = new LineBorder(Color.black, 2, true);
+	public static final LineBorder BORDER = new LineBorder(Color.black, 20, true);
 	public static final Border BUTTON_PADDING = new EmptyBorder(80, 0, 0, 0);
 	
 }
