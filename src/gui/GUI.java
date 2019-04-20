@@ -49,7 +49,6 @@ public class GUI extends JFrame {
 		submit.addActionListener(e -> {
 			this.user = new User(textbox.getText());
 			System.out.println(user);
-
 			nextState.countDown();
 		});
 
@@ -73,13 +72,32 @@ public class GUI extends JFrame {
 	}
 
 	private Cell postCell(Post post) {
-		Cell cell = new Cell(1, 2);
+		Cell cell = new Cell(1, 3);
 		Cell left = new Cell(3, 1); // the content, details, and add comment
-		Cell right = new Cell(post.numComments(), 1); // the comments
+		Cell mid = new Cell(2, 1); // upvote, downvote
+		Cell right = new Cell(post.numComments(), 1); // comments
 
 		left.setCell(post.getContent().getContent(), 1, 1); // NOTE: need to change for images
+		left.setCell(post.getInterestLevel() + "", 2, 1);
+
+		Button upvote = new Button("Upvote");
+		upvote.addActionListener(e -> {
+			post.addVote(1);
+			nextState.countDown();
+		});
+
+		Button downvote = new Button("Downvote");
+		downvote.addActionListener(e -> {
+			post.addVote(-1);
+			nextState.countDown();
+		});
+
+		mid.setCell(upvote, 1, 1);
+		mid.setCell(downvote, 2, 1);
 
 		cell.setCell(left, 1, 1);
+		cell.setCell(mid, 1, 2);
+		cell.setCell(right, 1, 3);
 
 		return cell;
 	}
@@ -122,7 +140,7 @@ public class GUI extends JFrame {
 		gui.display(gui.signInPanel()); // add the signin panel
 
 		boolean running = true;
-		while(running) {
+		while (running) {
 			gui.nextState.await();
 			gui.display(gui.homePagePanel());
 			gui.nextState = new CountDownLatch(1);
