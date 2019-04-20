@@ -12,7 +12,7 @@ public class Cell extends JPanel {
 	private JPanel[][] grid;
 
 	public Cell(int rows, int cols) {
-		this.setLayout(new GridLayout(rows, cols));
+		this.setLayout(new GridLayout(rows, cols, 50, 50));
 		this.setBackground(Theme.COLOR_ACCENT1);
 		this.setFont(Theme.FONT);
 		this.setBorder(Theme.BORDER);
@@ -22,6 +22,7 @@ public class Cell extends JPanel {
 		for (int m = 0; m < rows; m++) {
 			for (int n = 0; n < cols; n++) {
 				JPanel p = new JPanel();
+				p.setOpaque(false);
 				grid[m][n] = p;
 				add(p);
 			}

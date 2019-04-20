@@ -39,6 +39,7 @@ public class GUI extends JFrame {
 
 	private Cell signInPanel() {
 		Cell signIn = new Cell(2, 1);
+		signIn.setBackground(Theme.COLOR_MAIN);
 		Cell form = new Cell(1, 2);
 
 		TextArea textbox = new TextArea();
@@ -70,6 +71,7 @@ public class GUI extends JFrame {
 		int numRows = this.determineNumRows();
 		Cell header = new Cell(1, 2);
 		Cell homePage = new Cell(numRows, 1);
+		homePage.setBackground(Theme.COLOR_MAIN);
 
 		Button refresh = new Button("refresh");
 		refresh.addActionListener(e -> {
