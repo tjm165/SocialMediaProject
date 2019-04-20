@@ -13,7 +13,7 @@ public class GUI extends JFrame {
 
 	User user;
 	CountDownLatch nextState;
-	JPanel hotPanel;
+	JScrollPane hotPanel;
 	CountDownLatch newUpdates;
 
 	public GUI(String title) {
@@ -31,12 +31,23 @@ public class GUI extends JFrame {
 		if (hotPanel != null)
 			this.remove(hotPanel);
 
-		this.hotPanel = panel;
-		this.add(hotPanel);
-
+		this.hotPanel = new JScrollPane(panel);
+		
+		//JScrollPane scrPane = new JScrollPane(hotPanel);
+		//this.add(scrPane);
+		this.add(hotPanel); //take out for scrolling
+		
 		this.setVisible(true);// need to call this everytime to update the jframe
 	}
 
+	private JScrollPane getHotPanel() {
+		return this.hotPanel;
+	}
+	
+	private void refresh() {
+		nextState.countDown();
+	}
+	
 	private Cell signInPanel() {
 		Cell signIn = new Cell(2, 1);
 		signIn.setBackground(Theme.COLOR_MAIN);
@@ -53,7 +64,7 @@ public class GUI extends JFrame {
 				System.out.println(textbox.getText());
 				this.user = new User(textbox.getText());
 				System.out.println(user);
-				nextState.countDown();
+				refresh();
 			}
 		});
 
@@ -75,7 +86,7 @@ public class GUI extends JFrame {
 
 		Button refresh = new Button("refresh");
 		refresh.addActionListener(e -> {
-			nextState.countDown();
+			this.refresh();
 		});
 
 		header.setCell(createPostCell(), 1, 1);
@@ -93,7 +104,7 @@ public class GUI extends JFrame {
 		Cell info = new Cell(3, 1); // the content and detials
 		Cell vote = new Cell(2, 1); // upvote, downvote
 		Cell addComment = new Cell(2, 1);
-		Cell comments = new Cell(post.numComments(), 1); // fix
+		Cell comments = new Cell(post.numComments(), 1);
 
 		// Info
 		Content content = post.getContent();
@@ -118,7 +129,7 @@ public class GUI extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			nextState.countDown();
+			refresh();
 		});
 
 		Button downvote = new Button("Downvote");
@@ -129,7 +140,7 @@ public class GUI extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			nextState.countDown();
+			refresh();
 		});
 
 		vote.setCell(upvote, 1, 1);
@@ -146,7 +157,7 @@ public class GUI extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			nextState.countDown();
+			refresh();
 		});
 		addComment.setCell(comment, 1, 1);
 		addComment.setCell(submit, 2, 1);
@@ -160,6 +171,7 @@ public class GUI extends JFrame {
 		cell.setCell(info, 1, 1);
 		cell.setCell(vote, 1, 2);
 		cell.setCell(addComment, 1, 3);
+		JScrollPane scrollComments = new JScrollPane(comments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		cell.setCell(comments, 1, 4);
 
 		return cell;
@@ -189,7 +201,7 @@ public class GUI extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			nextState.countDown();
+			refresh();
 		});
 
 		top.setCell(content, 1, 1);
@@ -214,6 +226,12 @@ public class GUI extends JFrame {
 
 		gui.display(gui.signInPanel()); // add the signin panel
 
+        //simply dealing with submit button
+		gui.nextState.await();
+		gui.getHotPanel().removeAll();
+		gui.display(gui.homePagePanel());
+		
+		//dealing with board interactions
 		boolean running = true;
 		while (running) {
 			gui.nextState.await();
