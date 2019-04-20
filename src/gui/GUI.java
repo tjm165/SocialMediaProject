@@ -62,7 +62,7 @@ public class GUI extends JFrame {
 
 	private Cell homePagePanel() {
 		//user = new User(this.user.getUserId());
-		Board board = this.user.getBoard();
+		Board board = this.user.testBoard(); //NOTE: update
 		board.sortPosts();
 		int numRows = this.determineNumRows();
 		Cell homePage = new Cell(numRows, 1);
@@ -75,12 +75,12 @@ public class GUI extends JFrame {
 		homePage.setCell(refresh, 1, 1);
 		homePage.setCell(createPostCell(), 2, 1);
 		for (int i = 0; i < board.numPosts(); i++)
-			homePage.setCell(this.postCell(board.getPost(i)), i + 3, 1);
+			homePage.setCell(this.postCell(board.getPost(i), i), i + 3, 1);
 
 		return homePage;
 	}
 
-	private Cell postCell(Post post) {
+	private Cell postCell(Post post, int index) {
 		Cell cell = new Cell(1, 3);
 		Cell left = new Cell(3, 1); // the content, details, and add comment
 		Cell mid = new Cell(2, 1); // upvote, downvote
@@ -91,13 +91,23 @@ public class GUI extends JFrame {
 
 		Button upvote = new Button("Upvote");
 		upvote.addActionListener(e -> {
-			post.addVote(1);
+			try {
+				user.upVote(index);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			nextState.countDown();
 		});
 
 		Button downvote = new Button("Downvote");
 		downvote.addActionListener(e -> {
-			post.addVote(-1);
+			try {
+				user.downVote(index);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			nextState.countDown();
 		});
 

@@ -1,4 +1,5 @@
 package system_classes;
+
 import javax.swing.JPanel;
 
 import theme.Label;
