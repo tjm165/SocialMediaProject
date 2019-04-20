@@ -21,7 +21,6 @@ public class User {
 	public final static String BOARD_DIRECTORY = "board_directory/";
 	private String userId;
 	private Board board;
-	protected CountDownLatch refresh;
 
 	public User(String userId) {
 		this.userId = userId;
@@ -34,16 +33,26 @@ public class User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.refresh = new CountDownLatch(1);
+	}
+	
+	public Board testBoard() {
+		try {
+		return Board.getBoardFromFile(BOARD_DIRECTORY);
+		}
+		catch(Exception e) {
+			return null;
+		}
 	}
 
 	public Board getBoard() {
 		return this.board;
 	}
 
+	/*
 	public void setUserId(String ID) {
 		this.userId = ID;
 	}
+	*/
 
 	public String getUserId() {
 		return userId;
@@ -53,11 +62,6 @@ public class User {
 		board.sortPosts();
 	}
 
-	public void refreshGUI() {
-		refreshBoard();
-		System.out.println("refresh");
-		this.refresh.countDown();
-	}
 
 	public void upVote(int postIndex) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);

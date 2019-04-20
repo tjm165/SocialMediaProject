@@ -19,6 +19,7 @@ public class GUI extends JFrame {
 	User user;
 	CountDownLatch nextState;
 	JPanel hotPanel;
+	CountDownLatch newUpdates;
 
 	public GUI(String title) {
 		super(title);
@@ -27,6 +28,7 @@ public class GUI extends JFrame {
 		this.hotPanel = null;
 		this.user = null;
 		this.nextState = new CountDownLatch(1);
+		this.newUpdates = new CountDownLatch(1);
 	}
 
 	// I think this will be a very important method
@@ -59,14 +61,21 @@ public class GUI extends JFrame {
 	}
 
 	private Cell homePagePanel() {
+		//user = new User(this.user.getUserId());
 		Board board = this.user.getBoard();
 		board.sortPosts();
 		int numRows = this.determineNumRows();
 		Cell homePage = new Cell(numRows, 1);
 
-		homePage.setCell(createPostCell(), 1, 1);
+		Button refresh = new Button("refresh");
+		refresh.addActionListener( e -> {
+			nextState.countDown();
+		});
+		
+		homePage.setCell(refresh, 1, 1);
+		homePage.setCell(createPostCell(), 2, 1);
 		for (int i = 0; i < board.numPosts(); i++)
-			homePage.setCell(this.postCell(board.getPost(i)), i + 2, 1);
+			homePage.setCell(this.postCell(board.getPost(i)), i + 3, 1);
 
 		return homePage;
 	}
@@ -130,7 +139,7 @@ public class GUI extends JFrame {
 
 	private int determineNumRows() {
 		Board board = this.user.getBoard();
-		int numRows = 2 + board.numPosts();
+		int numRows = 3 + board.numPosts();
 		return numRows;
 	}
 
