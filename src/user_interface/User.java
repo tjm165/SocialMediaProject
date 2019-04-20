@@ -1,4 +1,4 @@
-package system_classes;
+package user_interface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,11 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import system_classes.Board;
+import system_classes.Comment;
+import system_classes.Content;
+import system_classes.Post;
 
 public class User {
 	private final static String BASE_NAME = "board_directory/File";

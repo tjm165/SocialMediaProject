@@ -1,4 +1,4 @@
-package gui;
+package user_interface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -197,7 +197,7 @@ public class GUI extends JFrame {
 
 		bottom.setCell(anonCheck, 1, 1);
 		bottom.setCell(imageCheck, 1, 2);
-
+		
 		cell.setCell(top, 1, 1);
 		cell.setCell(bottom, 2, 1);
 		return cell;
