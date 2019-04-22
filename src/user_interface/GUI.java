@@ -101,6 +101,7 @@ public class GUI extends JFrame {
 
 	private Cell postCell(Post post, int index) {
 		Cell cell = new Cell(1, 4);
+		cell.setMaximumSize(getSize());
 		Cell info = new Cell(3, 1); // the content and detials
 		Cell vote = new Cell(2, 1); // upvote, downvote
 		Cell addComment = new Cell(2, 1);
@@ -172,8 +173,11 @@ public class GUI extends JFrame {
 		cell.setCell(vote, 1, 2);
 		cell.setCell(addComment, 1, 3);
 		JScrollPane scrollComments = new JScrollPane(comments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		cell.setCell(comments, 1, 4);
-
+		JPanel jComments = new JPanel();
+		jComments.add(scrollComments);
+		cell.setCell(jComments, 1, 4);
+		//System.out.println(cell.getSize());
+		
 		return cell;
 	}
 
