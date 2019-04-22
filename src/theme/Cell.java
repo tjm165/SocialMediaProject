@@ -1,9 +1,11 @@
 package theme;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class Cell extends JPanel {
 
@@ -39,6 +41,10 @@ public class Cell extends JPanel {
 	public void setCell(String string, int rows, int cols) {
 		Label label = new Label(string);
 		this.setCell(label, rows, cols);
+	}
+	
+	public JPanel getPanel(int rows, int cols) {
+		return grid[rows - 1][cols - 1];
 	}
 
 }
