@@ -31,42 +31,29 @@ public class User {
 		this.userId = userId;
 		try {
 			this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
-		} catch (IOException e) {
+		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public Board testBoard() {
-		try {
-		return Board.getBoardFromFile(BOARD_DIRECTORY);
-		}
-		catch(Exception e) {
-			return null;
 		}
 	}
 
 	public Board getBoard() {
+		try {
+			this.board = Board.getBoardFromFile(BOARD_DIRECTORY);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return this.board;
 	}
 
 	/*
-	public void setUserId(String ID) {
-		this.userId = ID;
-	}
-	*/
+	 * public void setUserId(String ID) { this.userId = ID; }
+	 */
 
 	public String getUserId() {
 		return userId;
 	}
-
-	public void refreshBoard() {
-		board.sortPosts();
-	}
-
 
 	public void upVote(int postIndex) throws FileNotFoundException {
 		Post post = board.getPost(postIndex);
