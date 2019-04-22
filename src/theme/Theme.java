@@ -23,6 +23,7 @@ public class Theme {
 
 	public static final Font FONT = new Font("Serif", Font.PLAIN, 72);
 	public static final LineBorder BORDER = new LineBorder(Color.black, 10, true);
+	public static final LineBorder HALF = new LineBorder(Color.black, 4, true);
 	public static final Border BUTTON_PADDING = new EmptyBorder(80, 0, 0, 0);
 
 }

@@ -42,5 +42,9 @@ public class Cell extends JPanel {
 		Label label = new Label(string);
 		this.setCell(label, rows, cols);
 	}
+	
+	public JPanel getPanel(int rows, int cols) {
+		return grid[rows - 1][cols - 1];
+	}
 
 }

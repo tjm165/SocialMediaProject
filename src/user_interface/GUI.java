@@ -1,5 +1,6 @@
 package user_interface;
 
+import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
@@ -101,7 +102,7 @@ public class GUI extends JFrame {
 
 	private Cell postCell(Post post, int index) {
 		Cell cell = new Cell(1, 4);
-		cell.setMaximumSize(getSize());
+		cell.setMaximumSize(new Dimension(100, 100));
 		Cell info = new Cell(3, 1); // the content and detials
 		Cell vote = new Cell(2, 1); // upvote, downvote
 		Cell addComment = new Cell(2, 1);
@@ -166,8 +167,10 @@ public class GUI extends JFrame {
 		// Comments
 		Iterator<Comment> iter = post.getIterator();
 		int i = 1;
-		while (iter.hasNext())
-			comments.setCell(iter.next().getContent().getContent(), i++, 1);
+		while (iter.hasNext()) {
+			comments.setCell(iter.next().getContent().getContent(), i, 1);
+			comments.getPanel(i++,  1).setBorder(Theme.HALF);
+		}
 
 		cell.setCell(info, 1, 1);
 		cell.setCell(vote, 1, 2);
@@ -176,7 +179,7 @@ public class GUI extends JFrame {
 		JPanel jComments = new JPanel();
 		jComments.add(scrollComments);
 		cell.setCell(jComments, 1, 4);
-		//System.out.println(cell.getSize());
+		System.out.println(cell.getSize());
 		
 		return cell;
 	}
