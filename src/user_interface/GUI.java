@@ -141,7 +141,7 @@ public class GUI extends JFrame {
 				System.out.println("type was: " + post.getContent().getType());
 				e2.printStackTrace();
 			}
-		info.setCell("Interest Level: " + post.getInterestLevel(), 2, 1);
+		info.setCell(post.getInterestLevel() + " hrs left", 2, 1);
 		info.setCell("User: " + ((post.getUserId().equals("null")) ? "N/A" : post.getUserId()), 3, 1);
 
 		// Vote

@@ -21,8 +21,8 @@ public class Theme {
 	public static final Color COLOR_LABEL = Color.BLACK;
 	public static final Color COLOR_ERROR = Color.RED;
 
-	public static final Font FONT = new Font("Serif", Font.PLAIN, 72);
-	public static final LineBorder BORDER = new LineBorder(Color.black, 10, true);
+	public static final Font FONT = new Font("Serif", Font.PLAIN, 62);
+	public static final LineBorder BORDER = new LineBorder(Color.black, 10, false);
 	public static final LineBorder HALF = new LineBorder(Color.black, 4, true);
 	public static final Border BUTTON_PADDING = new EmptyBorder(80, 0, 0, 0);
 
