@@ -1,6 +1,8 @@
 package user_interface;
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
@@ -13,6 +15,7 @@ import theme.*;
 public class GUI extends JFrame {
 
 	User user;
+	boolean hasSignedIn;
 	CountDownLatch nextState;
 	JScrollPane hotPanel;
 	CountDownLatch newUpdates;
@@ -25,6 +28,25 @@ public class GUI extends JFrame {
 		this.user = null;
 		this.nextState = new CountDownLatch(1);
 		this.newUpdates = new CountDownLatch(1);
+		this.hasSignedIn = false;
+
+		WindowFocusListener l = new WindowFocusListener() {
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				if (hasSignedIn)
+					refresh();
+			}
+
+			@Override
+			public void windowLostFocus(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		};
+
+		this.addWindowFocusListener(l);
+
 	}
 
 	// I think this will be a very important method
@@ -33,22 +55,22 @@ public class GUI extends JFrame {
 			this.remove(hotPanel);
 
 		this.hotPanel = new JScrollPane(panel);
-		
-		//JScrollPane scrPane = new JScrollPane(hotPanel);
-		//this.add(scrPane);
-		this.add(hotPanel); //take out for scrolling
-		
+
+		// JScrollPane scrPane = new JScrollPane(hotPanel);
+		// this.add(scrPane);
+		this.add(hotPanel); // take out for scrolling
+
 		this.setVisible(true);// need to call this everytime to update the jframe
 	}
 
 	private JScrollPane getHotPanel() {
 		return this.hotPanel;
 	}
-	
+
 	private void refresh() {
 		nextState.countDown();
 	}
-	
+
 	private Cell signInPanel() {
 		Cell signIn = new Cell(2, 1);
 		signIn.setBackground(Theme.COLOR_MAIN);
@@ -78,9 +100,9 @@ public class GUI extends JFrame {
 
 	private Cell homePagePanel() {
 		// user = new User(this.user.getUserId());
-		Board board = this.user.testBoard(); // NOTE: update
+		Board board = this.user.getBoard(); // NOTE: update
 		board.sortPosts();
-		int numRows = this.determineNumRows();
+		int numRows = this.determineNumRows(board);
 		Cell header = new Cell(1, 2);
 		Cell homePage = new Cell(numRows, 1);
 		homePage.setBackground(Theme.COLOR_MAIN);
@@ -119,7 +141,7 @@ public class GUI extends JFrame {
 				System.out.println("type was: " + post.getContent().getType());
 				e2.printStackTrace();
 			}
-		info.setCell("Interest Level: " + post.getInterestLevel(), 2, 1);
+		info.setCell(post.getInterestLevel() + " hrs left", 2, 1);
 		info.setCell("User: " + ((post.getUserId().equals("null")) ? "N/A" : post.getUserId()), 3, 1);
 
 		// Vote
@@ -179,8 +201,6 @@ public class GUI extends JFrame {
 		JPanel jComments = new JPanel();
 		jComments.add(scrollComments);
 		cell.setCell(jComments, 1, 4);
-		System.out.println(cell.getSize());
-		
 		return cell;
 	}
 
@@ -216,29 +236,30 @@ public class GUI extends JFrame {
 
 		bottom.setCell(anonCheck, 1, 1);
 		bottom.setCell(imageCheck, 1, 2);
-		
+
 		cell.setCell(top, 1, 1);
 		cell.setCell(bottom, 2, 1);
 		return cell;
 	}
 
-	private int determineNumRows() {
-		Board board = this.user.getBoard();
+	private int determineNumRows(Board board) {
 		int numRows = 1 + board.numPosts();
 		return numRows;
 	}
 
 	public static void runGUI() throws InterruptedException {
-		GUI gui = new GUI("Social Media App"); // make the GUI
+		GUI gui = new GUI("Social Media App - Sign In"); // make the GUI
 
 		gui.display(gui.signInPanel()); // add the signin panel
 
-        //simply dealing with submit button
+		// simply dealing with submit button
 		gui.nextState.await();
+		gui.hasSignedIn = true;
+		gui.setTitle("Scial Media App - " + gui.user.getUserId());
 		gui.getHotPanel().removeAll();
 		gui.display(gui.homePagePanel());
-		
-		//dealing with board interactions
+
+		// dealing with board interactions
 		boolean running = true;
 		while (running) {
 			gui.nextState.await();
